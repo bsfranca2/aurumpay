@@ -1,6 +1,4 @@
 <Solution>
-  <Folder Name="/src/" />
-  <Folder Name="/src/Application/">
-    <Project Path="src/Application/AurumPay.Application.csproj" />
-  </Folder>
+    <Project Path="src/Api/Api.csproj" />
+    <Project Path="src/Application/Application.csproj" />
 </Solution>
