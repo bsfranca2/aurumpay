@@ -1,0 +1,15 @@
+{
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@10.7.1",
+  "scripts": {
+    "lint": "pnpm run lint",
+    "clean": "pnpm run clean:modules && pnpm run clean:nuxt",
+    "clean:modules": "powershell -Command \"Get-ChildItem -Path . -Filter 'node_modules' -Directory -Recurse | Remove-Item -Recurse -Force\"",
+    "clean:nuxt": "powershell -Command \"Get-ChildItem -Path . -Filter '.nuxt' -Directory -Recurse | Remove-Item -Recurse -Force\""
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.11.0",
+    "eslint": "^9.24.0"
+  }
+}
