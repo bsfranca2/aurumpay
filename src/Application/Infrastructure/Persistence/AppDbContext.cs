@@ -1,15 +1,33 @@
 using AurumPay.Application.Domain.Catalog;
+using AurumPay.Application.Domain.Checkout;
+using AurumPay.Application.Domain.Stores;
+using AurumPay.Application.Infrastructure.Persistence.EntityConfigurations;
 
 using Microsoft.EntityFrameworkCore;
 
 namespace AurumPay.Application.Infrastructure.Persistence;
 
-// dotnet ef migrations add InitialData -p .\src\Application\ -s .\src\Api\ --context AppDbContext
+/// <remarks>
+/// Add migrations using the following command inside the 'src\Application' project directory:
+///
+/// dotnet ef migrations add --startup-project ..\Api --context AppDbContext [migration-name]
+/// </remarks>
 public class AppDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    {
-    }
-
+    public DbSet<Merchant> Merchants { get; init; }
+    public DbSet<Store> Stores { get; init; }
     public DbSet<Product> Products { get; init; }
+    public DbSet<CheckoutSession> CheckoutSessions { get; init; }
+    public DbSet<CartItem> CartItems { get; init; }
+    
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfiguration(new MerchantEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new StoreEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new CheckoutSessionEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new CartItemEntityTypeConfiguration());
+    }
 }
