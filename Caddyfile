@@ -1,0 +1,4 @@
+*.seguro.localhost:443 {
+    tls internal
+    reverse_proxy http://host.docker.internal:3000
+}
