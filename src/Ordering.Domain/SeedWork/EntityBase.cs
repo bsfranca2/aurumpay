@@ -1,4 +1,4 @@
-namespace AurumPay.Application.Common;
+namespace AurumPay.Ordering.Domain.SeedWork;
 
 /// <summary>
 /// A base class for DDD Entities. Includes support for domain events dispatched post-persistence.

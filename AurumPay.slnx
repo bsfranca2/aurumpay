@@ -1,4 +1,5 @@
 <Solution>
     <Project Path="src/Api/Api.csproj" />
     <Project Path="src/Application/Application.csproj" />
+    <Project Path="src/Ordering.Domain/Ordering.Domain.csproj" />
 </Solution>

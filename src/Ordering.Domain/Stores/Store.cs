@@ -1,6 +1,6 @@
-using AurumPay.Application.Common;
+using AurumPay.Ordering.Domain.SeedWork;
 
-namespace AurumPay.Application.Domain.Stores;
+namespace AurumPay.Ordering.Domain.Stores;
 
 public class Store : EntityBase
 {

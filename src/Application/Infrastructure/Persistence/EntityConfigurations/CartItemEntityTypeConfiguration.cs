@@ -1,5 +1,5 @@
-using AurumPay.Application.Domain.Catalog;
-using AurumPay.Application.Domain.Checkout;
+using AurumPay.Ordering.Domain.Catalog;
+using AurumPay.Ordering.Domain.Checkout;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

@@ -1,4 +1,4 @@
-namespace AurumPay.Application.Domain.Checkout;
+namespace AurumPay.Ordering.Domain.Checkout;
 
 public enum CheckoutStatus
 {

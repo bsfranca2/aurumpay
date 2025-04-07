@@ -1,16 +1,17 @@
-using AurumPay.Application.Common;
+using AurumPay.Ordering.Domain.SeedWork;
 
-namespace AurumPay.Application.Domain.Catalog;
+namespace AurumPay.Ordering.Domain.Catalog;
 
 public class Product : EntityBase
 {
     public Guid StoreId { get; private set; }
-    public string Name { get; set; }
-    public decimal Price { get; set; }
+    public string Name { get; private set; }
+    public decimal Price { get; private set; }
 
     private Product(Guid id, Guid storeId, string name, decimal price)
     {
         Id = id;
+        StoreId = storeId;
         Name = name;
         Price = price;
     }

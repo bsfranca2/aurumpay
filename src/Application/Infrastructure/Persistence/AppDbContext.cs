@@ -1,7 +1,8 @@
-using AurumPay.Application.Domain.Catalog;
-using AurumPay.Application.Domain.Checkout;
-using AurumPay.Application.Domain.Stores;
 using AurumPay.Application.Infrastructure.Persistence.EntityConfigurations;
+using AurumPay.Ordering.Domain.Catalog;
+using AurumPay.Ordering.Domain.Checkout;
+using AurumPay.Ordering.Domain.Merchants;
+using AurumPay.Ordering.Domain.Stores;
 
 using Microsoft.EntityFrameworkCore;
 

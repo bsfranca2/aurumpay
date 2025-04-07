@@ -1,5 +1,5 @@
-using AurumPay.Application.Domain.Checkout;
-using AurumPay.Application.Domain.Stores;
+using AurumPay.Ordering.Domain.Checkout;
+using AurumPay.Ordering.Domain.Stores;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -15,7 +15,9 @@ public class CheckoutSessionEntityTypeConfiguration : IEntityTypeConfiguration<C
         checkoutSessionConfiguration.HasKey(p => p.Id);
 
         checkoutSessionConfiguration.Property(c => c.Status).HasConversion<string>().HasMaxLength(30);
-        
+
         checkoutSessionConfiguration.HasOne<Store>().WithMany().HasForeignKey(s => s.StoreId);
+
+        checkoutSessionConfiguration.HasMany(c => c.CartItems).WithOne().HasForeignKey(ci => ci.CheckoutSessionId);
     }
 }

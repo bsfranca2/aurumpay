@@ -1,4 +1,6 @@
 using AurumPay.Application;
+using AurumPay.Application.Features.Checkout;
+using AurumPay.Application.Features.Stores;
 using AurumPay.Application.Infrastructure.Endpoints;
 using AurumPay.Application.Infrastructure.Persistence;
 
@@ -37,6 +39,11 @@ app.MapScalarApiReference();
 app.UseHttpsRedirection();
 
 app.UseExceptionHandler();
+
+app.UseAuthentication()
+    .UseAuthorization();
+
+app.UseMiddleware<StoreTenantMiddleware>();
 
 app.MapEndpoints();
 
