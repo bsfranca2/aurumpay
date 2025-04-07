@@ -16,6 +16,8 @@ import {
 } from '@heroicons/vue/24/outline'
 import { computed, ref } from 'vue'
 
+const store = useStoreState()
+
 const currentStep = ref(1)
 const steps = ['Informações', 'Endereço', 'Pagamento']
 
@@ -176,8 +178,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-100 py-8">
-    <div class="max-w-7xl mx-auto px-4">
+  <div class="min-h-screen bg-gray-100">
+    <header class="bg-white w-full shadow-md py-4">
+      <div class="max-w-7xl mx-auto px-4">
+        <h1 class="text-2xl font-bold text-gray-800">
+          {{ store.name }}
+        </h1>
+      </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 py-8">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Passos do Checkout -->
         <div class="md:col-span-2 bg-white rounded-lg shadow-md p-6">
