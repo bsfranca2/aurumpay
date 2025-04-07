@@ -1,4 +1,22 @@
-*.seguro.localhost:443 {
+seguro.lojaoculos.localhost:443 {
     tls internal
-    reverse_proxy http://host.docker.internal:3000
+
+    handle_path /api/* {
+        reverse_proxy http://host.docker.internal:5173
+    }
+
+    handle {
+        reverse_proxy http://host.docker.internal:3000
+    }
+}
+seguro.lojachuteiras.localhost:443 {
+    tls internal
+    
+    handle_path /api/* {
+        reverse_proxy http://host.docker.internal:5173
+    }
+
+    handle {
+        reverse_proxy http://host.docker.internal:3000
+    }
 }

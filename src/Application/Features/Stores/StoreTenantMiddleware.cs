@@ -31,6 +31,9 @@ public class StoreTenantMiddleware(RequestDelegate next)
 
     private static string? GetStoreIdFromRequest(HttpContext context)
     {
+        if (context.Request.Host.Host == "seguro.lojaoculos.localhost")
+            return StoreConstant.GlassesStoreId.ToString();
+        
         if (context.Request.Headers.TryGetValue(StoreIdHeader, out var headerValue))
             return headerValue.ToString();
 
