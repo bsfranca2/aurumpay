@@ -1,0 +1,1 @@
+global using IResult = Microsoft.AspNetCore.Http.IResult;

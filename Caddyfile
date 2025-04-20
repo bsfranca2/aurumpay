@@ -1,0 +1,32 @@
+seguro.lojaoculos.localhost:443 {
+    tls internal
+
+    handle_path /api/* {
+        reverse_proxy http://host.docker.internal:5173
+    }
+
+    handle {
+        reverse_proxy http://host.docker.internal:3000 {
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+}
+seguro.lojachuteiras.localhost:443 {
+    tls internal
+    
+    handle_path /api/* {
+        reverse_proxy http://host.docker.internal:5173
+    }
+
+    handle {
+        reverse_proxy http://host.docker.internal:3000 {
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+}

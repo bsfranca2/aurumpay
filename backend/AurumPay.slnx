@@ -1,0 +1,15 @@
+<Solution>
+    <Folder Name="/1.Domain/">
+        <Project Path="src/Domain/Domain.csproj" />
+    </Folder>
+    
+    <Folder Name="/2.Application/">
+        <Project Path="src/Application/Application.csproj" />
+    </Folder>
+
+    <Folder Name="/3.Infrastructure/">
+        <Project Path="src/Infrastructure.EntityFramework/Infrastructure.EntityFramework.csproj" />
+    </Folder>
+    
+    <Project Path="src/Checkout.Api/Checkout.Api.csproj" />
+</Solution>

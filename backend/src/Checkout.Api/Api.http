@@ -1,0 +1,35 @@
+@Api_HostAddress = http://localhost:5173
+
+###
+GET {{Api_HostAddress}}/store/
+Accept: application/json
+
+###
+POST {{Api_HostAddress}}/checkout/init/product
+Content-Type: application/json
+
+{
+  "cartItems": [
+    {
+      "productId": 1000,
+      "quantity": 1
+    }
+  ]
+}
+
+###
+GET {{Api_HostAddress}}/checkout/summary
+Accept: application/json
+Cookie: CheckoutSession=CfDJ8Jo2btIBF1lPqMWXNmlS5owUBvshX9ZTU-dxbBC8Fuw3YWh75lHHAqKYobsKl7QIbxgbs3z4ZIvf59Lf8pJ2xWopuVUCrCdRvBZR7rzTXGAgDHoblP_8ynO-aqz0kY98gaSrFfFRuqX3bWdPTyk9-2YcET6uj1hKILYBVO-8P49XWdMnIjpl5LZTwic7-2w2eeLDVIOrolsceGJsBUWJWagqVrXqRE7piWw266Ciok-8ZGwSU7w1XGpY5n_EEAG6-ZIAeYI6LNL6s6FvZcbL237Lz7yjaTczOJwzGQ7InpAEQD9D1_eAex_kM_D2KlBuKsisJkdFOO8iWAT3kvDvfDRC8_lyZ2h4KdoQGBCyWo6FSqVJEl8dFZyELIJ62GXReA; expires=Sun, 20 Apr 2025 02:36:16 GMT; path=/; secure; samesite=strict; httponly
+
+###
+PUT {{Api_HostAddress}}/checkout/customer
+Content-Type: application/json
+Cookie: CheckoutSession=CfDJ8Jo2btIBF1lPqMWXNmlS5owUBvshX9ZTU-dxbBC8Fuw3YWh75lHHAqKYobsKl7QIbxgbs3z4ZIvf59Lf8pJ2xWopuVUCrCdRvBZR7rzTXGAgDHoblP_8ynO-aqz0kY98gaSrFfFRuqX3bWdPTyk9-2YcET6uj1hKILYBVO-8P49XWdMnIjpl5LZTwic7-2w2eeLDVIOrolsceGJsBUWJWagqVrXqRE7piWw266Ciok-8ZGwSU7w1XGpY5n_EEAG6-ZIAeYI6LNL6s6FvZcbL237Lz7yjaTczOJwzGQ7InpAEQD9D1_eAex_kM_D2KlBuKsisJkdFOO8iWAT3kvDvfDRC8_lyZ2h4KdoQGBCyWo6FSqVJEl8dFZyELIJ62GXReA; expires=Sun, 20 Apr 2025 02:36:16 GMT; path=/; secure; samesite=strict; httponly
+
+{
+  "fullName": "Ana Luiza Moreira",
+  "email": "ana@gmail.com",
+  "phoneNumber": "55199999999",
+  "cpf": "18297431924"
+}

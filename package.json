@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@10.8.1",
+  "scripts": {
+    "lint": "pnpm run lint",
+    "clean": "pnpm run clean:modules && pnpm run clean:nuxt && pnpm run clean:dist",
+    "clean:modules": "find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \\;",
+    "clean:nuxt": "find . -name '.nuxt' -type d -prune -print -exec rm -rf '{}' \\;",
+    "clean:dist": "find . -name 'dist' -type d -prune -print -exec rm -rf '{}' \\;"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.11.0",
+    "eslint": "^9.24.0",
+    "typescript": "5.7.2"
+  }
+}
