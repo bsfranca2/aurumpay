@@ -1,9 +1,9 @@
 export default defineNuxtPlugin({
   name: 'white-label-plugin',
   enforce: 'pre',
-  dependsOn: ['api-plugin'],
+  dependsOn: ['domain-plugin'],
   async setup() {
-    // await useStore().fetchAndSet()
+    await useStore().fetchAndSet()
     // const { whiteLabel } = useWhiteLabel()
     // updateAppConfig({
     //   ui: {

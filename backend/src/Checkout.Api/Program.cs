@@ -8,6 +8,8 @@ using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 builder.Services
     .AddEndpoints()
     .AddEndpointsApiExplorer()
@@ -42,6 +44,7 @@ app.UseAuthentication()
 
 app.UseMiddleware<StoreTenantMiddleware>();
 
-app.MapEndpoints();
+app.MapDefaultEndpoints()
+    .MapEndpoints();
 
 app.Run();

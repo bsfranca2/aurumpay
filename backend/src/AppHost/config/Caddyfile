@@ -1,0 +1,34 @@
+{
+    http_port 80
+    https_port 443
+    # Enables debugging mode for more verbose logs during development
+    debug
+}
+
+*.pay.checkout.local {
+    tls /etc/caddy/certs/local-dev-cert.pem /etc/caddy/certs/local-dev-key.pem
+
+    handle_path /api/* {
+        reverse_proxy {$CHECKOUTAPI_URL}
+    }
+
+    handle {
+        reverse_proxy {$CHECKOUTAPP_URL} {
+            # header_up Host {upstream_hostport}
+            header_up X-Real-IP {remote_ip}
+            header_up X-Forwarded-For {remote_ip}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+
+    # Log requests to standard output for easy viewing in Aspire dashboard/logs
+    log {
+        output stdout
+        format console # Human-readable format
+    }
+}
+
+# Optional: Handle localhost requests if needed for direct testing (e.g., API health checks)
+localhost {
+   respond "Hello from Caddy on localhost!"
+}

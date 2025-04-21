@@ -10,6 +10,8 @@
     <Folder Name="/3.Infrastructure/">
         <Project Path="src/Infrastructure.EntityFramework/Infrastructure.EntityFramework.csproj" />
     </Folder>
-    
+
+    <Project Path="src/AppHost/AppHost.csproj" />
+    <Project Path="src/ServiceDefaults/ServiceDefaults.csproj" />
     <Project Path="src/Checkout.Api/Checkout.Api.csproj" />
 </Solution>
