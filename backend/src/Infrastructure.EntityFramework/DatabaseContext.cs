@@ -14,7 +14,7 @@ namespace AurumPay.Infrastructure.EntityFramework;
 /// <remarks>
 /// Add migrations using the following command inside the 'src\Infrastructure.EntityFramework' project directory:
 ///
-/// dotnet ef migrations add --startup-project ..\Api --context AppDbContext [migration-name]
+/// dotnet ef migrations add [migration-name]
 /// </remarks>
 public class DatabaseContext : DbContext, IDatabaseContext
 {

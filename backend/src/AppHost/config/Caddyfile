@@ -8,16 +8,12 @@
 *.pay.checkout.local {
     tls /etc/caddy/certs/local-dev-cert.pem /etc/caddy/certs/local-dev-key.pem
 
-    handle_path /api/* {
-        reverse_proxy {$CHECKOUTAPI_URL}
-    }
-
     handle {
         reverse_proxy {$CHECKOUTAPP_URL} {
-            # header_up Host {upstream_hostport}
-            header_up X-Real-IP {remote_ip}
-            header_up X-Forwarded-For {remote_ip}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
             header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-Host {host}
         }
     }
 

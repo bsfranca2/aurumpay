@@ -1,9 +1,11 @@
-import type { Store } from '~/types/api'
+interface StoreState {
+  name: string
+}
 
 export function useStoreState() {
-  return useState<Store>('store:data', () => ({
-    id: '',
-    merchantId: '',
+  return useState<StoreState>('store:data', () => ({
+    // id: '',
+    // merchantId: '',
     name: 'Clothes Store',
   }))
 }

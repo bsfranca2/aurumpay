@@ -2,10 +2,16 @@
 
     <ItemGroup>
         <PackageReference Include="Ardalis.Result.AspNetCore" />
+        <PackageReference Include="Ardalis.Result.FluentValidation" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
+        <PackageReference Include="NetDevPack.Security.Jwt.AspNetCore" />
+        <PackageReference Include="NetDevPack.Security.Jwt.Core" />
         <PackageReference Include="Scalar.AspNetCore" />
+        <PackageReference Include="ZiggyCreatures.FusionCache" />
+        <PackageReference Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson" />
     </ItemGroup>
 
     <ItemGroup>

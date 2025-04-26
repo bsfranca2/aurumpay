@@ -13,10 +13,15 @@ IResourceBuilder<PostgresServerResource> mainDb = builder
     .WithDataVolume();
 IResourceBuilder<PostgresDatabaseResource> mainDbDatabase = mainDb.AddDatabase("Database", "AurumPayDev");
 
+IResourceBuilder<ValkeyResource> cache = builder
+    .AddValkey("Cache")
+    .WithDataVolume();
+
 IResourceBuilder<ProjectResource> checkoutApi = builder
     .AddProject<Checkout_Api>("CheckoutApi")
     .WithReference(mainDbDatabase)
-    .WaitFor(mainDbDatabase);
+    .WaitFor(mainDbDatabase)
+    .WithReference(cache);
 
 IResourceBuilder<NodeAppResource> checkoutApp = builder
     .AddNpmApp("CheckoutApp", "../../../apps/checkout", "dev")
@@ -24,17 +29,14 @@ IResourceBuilder<NodeAppResource> checkoutApp = builder
     .WithReference(checkoutApi)
     .WithEnvironment("NUXT_HOST", "0.0.0.0")
     .WithEnvironment("NODE_EXTRA_CA_CERTS", certConfig.RootCaPemPath)
-    .WithOtlpExporter()
+    .WithEnvironment("NUXT_API_URL", checkoutApi.GetEndpoint("http"))
     .WaitFor(checkoutApi);
 
-builder.AddContainer("caddy", "caddy", "2.7.4-alpine")
+builder.AddContainer("CheckoutGateway", "caddy", "2.7.4-alpine")
     .WithBindMount(certConfig.CertsSourcePath, "/etc/caddy/certs", true)
     .WithBindMount(certConfig.CaddyConfigPath, "/etc/caddy/Caddyfile", true)
     .WithHttpsEndpoint(8443, 443)
     .WithEnvironment("CHECKOUTAPP_URL", checkoutApp.GetEndpoint("http"))
-    .WithEnvironment("CHECKOUTAPI_URL", checkoutApi.GetEndpoint("http"))
-    .WithOtlpExporter()
-    .WaitFor(checkoutApp)
-    .WaitFor(checkoutApi);
+    .WaitFor(checkoutApp);
 
 builder.Build().Run();

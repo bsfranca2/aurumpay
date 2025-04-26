@@ -24,9 +24,9 @@ public static class DatabaseContextSeed
         await context.AddAsync(clothesStore, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
         
-        var clothesProduct1 = new Product(new ProductId(), clothesStore.Id, "Camiseta Básica", 29.99m);
-        var clothesProduct2 = new Product(new ProductId(), clothesStore.Id, "Calça Jeans", 89.90m);
-        var clothesProduct3 = new Product(new ProductId(), clothesStore.Id, "Jaqueta de Couro", 249.99m);
+        var clothesProduct1 = Product.CreateNew(clothesStore.Id, "Camiseta Básica", 29.99m);
+        var clothesProduct2 = Product.CreateNew(clothesStore.Id, "Calça Jeans", 89.90m);
+        var clothesProduct3 = Product.CreateNew(clothesStore.Id, "Jaqueta de Couro", 249.99m);
         
         await context.AddAsync(clothesProduct1, cancellationToken);
         await context.AddAsync(clothesProduct2, cancellationToken);
@@ -37,9 +37,9 @@ public static class DatabaseContextSeed
         await context.AddAsync(shoesStore, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
         
-        var shoesProduct1 = new Product(new ProductId(), shoesStore.Id, "Tênis Esportivo", 149.90m);
-        var shoesProduct2 = new Product(new ProductId(), shoesStore.Id, "Sapato Social", 179.99m);
-        var shoesProduct3 = new Product(new ProductId(), shoesStore.Id, "Sandália de Verão", 59.90m);
+        var shoesProduct1 = Product.CreateNew(shoesStore.Id, "Tênis Esportivo", 149.90m);
+        var shoesProduct2 = Product.CreateNew(shoesStore.Id, "Sapato Social", 179.99m);
+        var shoesProduct3 = Product.CreateNew(shoesStore.Id, "Sandália de Verão", 59.90m);
         
         await context.AddAsync(shoesProduct1, cancellationToken);
         await context.AddAsync(shoesProduct2, cancellationToken);

@@ -16,7 +16,7 @@ builder.Services
     .AddOpenApi()
     .AddDefaultCorsPolicy();
 
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Environment, builder.Configuration);
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
@@ -32,6 +32,8 @@ using (var scope = app.Services.CreateScope())
 
 app.UseCors();
 
+app.UseForwardedHeaders();
+
 app.MapOpenApi();
 app.MapScalarApiReference();
 
@@ -46,5 +48,7 @@ app.UseMiddleware<StoreTenantMiddleware>();
 
 app.MapDefaultEndpoints()
     .MapEndpoints();
+
+app.UseJwksDiscovery();
 
 app.Run();

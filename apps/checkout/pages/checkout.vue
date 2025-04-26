@@ -2,6 +2,10 @@
 import CustomerInfoStep from '~/components/checkout/CustomerInfoStep.vue'
 import ShippingInfoStep from '~/components/checkout/ShippingInfoStep.vue'
 
+definePageMeta({
+  middleware: ['checkout'],
+})
+
 const store = useStoreState()
 </script>
 

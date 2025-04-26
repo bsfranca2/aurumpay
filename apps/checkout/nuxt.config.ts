@@ -27,4 +27,9 @@ export default defineNuxtConfig({
     },
   },
   components: [],
+  runtimeConfig: {
+    checkoutSessionExpiration: 60 * 60 * 1000, // 1 hour
+    cartMaxAge: 60 * 60 * 24 * 7, // 7 days
+    apiUrl: 'http://localhost:5019',
+  },
 })

@@ -1,17 +1,30 @@
 using AurumPay.Domain.Catalog;
+using AurumPay.Domain.Interfaces;
 using AurumPay.Domain.Stores;
 
 using Microsoft.EntityFrameworkCore;
 
 namespace AurumPay.Infrastructure.EntityFramework.Repositories;
 
-public class StoreProductValidator(DatabaseContext context) : IStoreProductValidator
+public class StoreProductValidator(DatabaseContext context, IStoreContext storeContext) : IStoreProductValidator
 {
-    public async Task<bool> ValidateProductsAsync(StoreId storeId, IEnumerable<ProductId> productIds)
+    public async Task<HashSet<ProductId>> GetValidProductsAsync(
+        IEnumerable<ProductId> productIds,
+        CancellationToken cancellationToken)
     {
-        HashSet<ProductId> productIdSet = productIds.ToHashSet();
-        return await context
+        HashSet<ProductId> inputProductIdSet = productIds.ToHashSet();
+
+        if (inputProductIdSet.Count == 0)
+        {
+            return [];
+        }
+
+        List<ProductId> validIds = await context
             .Products
-            .CountAsync(p => p.StoreId == storeId && productIdSet.Contains(p.Id)) == productIdSet.Count;
+            .Where(p => p.StoreId == storeContext.GetCurrentStoreId() && inputProductIdSet.Contains(p.Id))
+            .Select(p => p.Id)
+            .ToListAsync(cancellationToken);
+
+        return validIds.ToHashSet();
     }
 }
