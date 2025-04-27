@@ -47,7 +47,6 @@ public static class EntityFrameworkServiceCollectionExtensions
         services.AddScoped<ICheckoutSessionRepository, CheckoutSessionRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IStoreCustomerService, StoreCustomerService>();
-        services.AddScoped<IStoreProductValidator, StoreProductValidator>();
 
         return services;
     }

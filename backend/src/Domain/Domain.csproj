@@ -3,6 +3,7 @@
       <PackageReference Include="MediatR" />
     <PackageReference Include="Ardalis.GuardClauses" />
     <PackageReference Include="Ardalis.Result" />
+    <PackageReference Include="Nanoid" />
     <PackageReference Include="Ulid" />
   </ItemGroup>
 </Project>

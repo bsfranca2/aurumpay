@@ -12,6 +12,7 @@ public sealed class CheckoutSession : IEntity<CheckoutSessionId>
 
     public CheckoutSessionId Id { get; init; }
     public StoreId StoreId { get; init; }
+    // TODO: Rename to DeviceFingerprint
     public string Fingerprint { get; init; }
     public CheckoutStatus Status { get; private set;  }
     public IReadOnlyCollection<CartItem> CartItems => _cartItems.ToList();

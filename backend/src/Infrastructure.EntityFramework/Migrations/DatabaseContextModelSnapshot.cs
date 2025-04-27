@@ -40,12 +40,18 @@ namespace AurumPay.Infrastructure.EntityFramework.Migrations
                         .HasPrecision(12, 2)
                         .HasColumnType("numeric(12,2)");
 
+                    b.Property<string>("PublicId")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
                     b.Property<long>("StoreId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StoreId");
+                    b.HasIndex("StoreId", "PublicId")
+                        .IsUnique();
 
                     b.ToTable("Products", (string)null);
                 });

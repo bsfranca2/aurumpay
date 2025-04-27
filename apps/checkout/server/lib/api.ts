@@ -1,27 +1,25 @@
-import type { FetchOptions } from 'ofetch'
-import type { ProblemDetail, Store } from '~/types/api'
+import type { $Fetch, FetchOptions } from 'ofetch'
+import type { CreateCheckout, ProblemDetail, Store } from '~/server/types/api'
 import type { Either } from '~/utils/result'
+import { left, right } from '~/utils/result'
 
 type ApiFn = <Right, Left = ProblemDetail>(url: string, options: FetchOptions) => Promise<Either<Left, Right>>
 
 export function createApiSdk(api: ApiFn) {
   return {
+    api,
+
     // Store
     store: () => api<Store>('/store', { method: 'get' }),
-    // Auth
-    // signIn: (data: SignInRequest) => api<SignInResponse>('/auth/login', {
-    //   method: 'post',
-    //   body: data,
-    // }),
-    // signOut: () => api('/auth/logout', { method: 'post' }),
 
-    // Users
-    // me: () => api<MeResponse>('/users/me', { headers: useRequestHeaders(['cookie']) }),
+    // Checkout
+    checkout: {
+      init: (data: CreateCheckout) => api('/checkout/init/product', { method: 'post', body: data }),
+    },
   }
 }
-export type ApiSdk = ReturnType<typeof createApiSdk>
 
-export function createApiErrorHandler(api: typeof $fetch) {
+export function createApiErrorHandler(api: $Fetch) {
   async function apiWithErrorHandler<Left, Right>(url: string, options: FetchOptions): Promise<Either<Left, Right>> {
     try {
       const response = await api<Right>(url, options as any)

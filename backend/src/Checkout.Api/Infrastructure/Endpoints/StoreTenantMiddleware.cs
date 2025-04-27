@@ -1,3 +1,5 @@
+using System.Text;
+
 using AurumPay.Domain.Stores;
 using AurumPay.Infrastructure.EntityFramework;
 

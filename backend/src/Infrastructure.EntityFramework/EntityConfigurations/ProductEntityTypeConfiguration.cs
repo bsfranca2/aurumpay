@@ -15,19 +15,39 @@ public class ProductEntityTypeConfiguration : IEntityTypeConfiguration<Product>
 
         productConfiguration.HasKey(p => p.Id);
         
-        productConfiguration.Property(p => p.Id)
+        productConfiguration
+            .Property(p => p.Id)
             .ValueGeneratedOnAdd()
             .HasIdentityOptions(startValue: 1000, incrementBy: 1)
             .HasColumnType("bigint");
         
-        productConfiguration.Property(p => p.Id).HasConversion(new ProductIdConverter());
+        productConfiguration
+            .Property(p => p.Id)
+            .HasConversion(new ProductIdConverter());
 
-        productConfiguration.Property(p => p.StoreId).HasConversion(new StoreIdConverter());
+        productConfiguration
+            .Property(p => p.StoreId)
+            .HasConversion(new StoreIdConverter());
         
-        productConfiguration.HasOne<Store>().WithMany().HasForeignKey(s => s.StoreId);
+        productConfiguration
+            .HasOne<Store>()
+            .WithMany()
+            .HasForeignKey(s => s.StoreId);
+
+        productConfiguration
+            .Property(p => p.PublicId)
+            .HasMaxLength(10);
         
-        productConfiguration.Property(p => p.Name).HasMaxLength(255);
+        productConfiguration
+            .HasIndex(p => new { p.StoreId, p.PublicId })
+            .IsUnique();
         
-        productConfiguration.Property(p => p.Price).HasPrecision(12, 2);
+        productConfiguration
+            .Property(p => p.Name)
+            .HasMaxLength(255);
+        
+        productConfiguration
+            .Property(p => p.Price)
+            .HasPrecision(12, 2);
     }
 }

@@ -5,10 +5,13 @@ namespace AurumPay.Domain.Stores;
 public interface IStoreProductValidator
 {
     /// <summary>
-    /// Validates that all specified products exist and belong to the given store.
+    /// Filters a collection of product IDs, returning only those that exist
+    /// and belong to the current store context.
     /// </summary>
-    /// <param name="storeId">ID of the store</param>
-    /// <param name="productIds">IDs of the products to validate</param>
-    /// <returns>True if all products exist and belong to the store; otherwise, false</returns>
-    Task<bool> ValidateProductsAsync(StoreId storeId, IEnumerable<ProductId> productIds);
+    /// <param name="productIds">The collection of product IDs to validate.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>A HashSet containing only the valid ProductIds from the input collection for the current store.</returns>
+    Task<HashSet<ProductId>> GetValidProductsAsync(
+        IEnumerable<ProductId> productIds,
+        CancellationToken cancellationToken = default);
 }
