@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@import "@aurumpay/checkout-ui";
+
+@layer base {
+  body {
+    @apply antialiased bg-checkout-bg;
+  }
+}
+
+@theme inline {
+  --font-sans: "Rubik", sans-serif;
+}

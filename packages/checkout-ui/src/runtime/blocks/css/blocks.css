@@ -1,0 +1,15 @@
+.left-column {
+  @apply flex flex-col flex-1 gap-6 order-2 md:order-1;
+}
+
+.payment-column {
+  @apply flex-1 order-3 md:order-2;
+}
+
+.summary-column {
+  @apply flex-1 order-first md:order-3;
+}
+
+.summary-item {
+  @apply flex justify-between py-2 border-b border-gray-200;
+}

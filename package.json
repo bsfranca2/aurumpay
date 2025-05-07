@@ -1,7 +1,7 @@
 {
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@10.9.0",
+  "packageManager": "pnpm@10.10.0",
   "scripts": {
     "lint": "pnpm run lint",
     "clean": "pnpm run clean:modules && pnpm run clean:nuxt && pnpm run clean:dist",
@@ -12,6 +12,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^4.11.0",
     "eslint": "^9.24.0",
-    "typescript": "5.7.2"
+    "eslint-plugin-format": "^1.0.1",
+    "typescript": "5.8.3"
   }
 }

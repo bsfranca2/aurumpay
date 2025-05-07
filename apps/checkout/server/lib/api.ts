@@ -1,9 +1,15 @@
 import type { $Fetch, FetchOptions } from 'ofetch'
-import type { CreateCheckout, ProblemDetail, Store } from '~/server/types/api'
-import type { Either } from '~/utils/result'
-import { left, right } from '~/utils/result'
+import type { Either } from 'result'
+import type {
+  CheckoutSummary,
+  CreateCheckout,
+  IdentifyCustomer,
+  ProblemDetails,
+  Store,
+} from '~/server/types/api'
+import { left, right } from 'result'
 
-type ApiFn = <Right, Left = ProblemDetail>(url: string, options: FetchOptions) => Promise<Either<Left, Right>>
+type ApiFn = <Right, Left = ProblemDetails>(url: string, options: FetchOptions) => Promise<Either<Left, Right>>
 
 export function createApiSdk(api: ApiFn) {
   return {
@@ -15,6 +21,8 @@ export function createApiSdk(api: ApiFn) {
     // Checkout
     checkout: {
       init: (data: CreateCheckout) => api('/checkout/init/product', { method: 'post', body: data }),
+      summary: () => api<CheckoutSummary>('/checkout/summary', { method: 'get' }),
+      identifyCustomer: (data: IdentifyCustomer) => api('/checkout/customer', { method: 'put', body: data }),
     },
   }
 }

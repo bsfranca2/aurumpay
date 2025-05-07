@@ -1,0 +1,27 @@
+@import '#build/ui.css';
+@import './base/css/typography.css' layer(components);
+@import './base/css/layout.css' layer(components);
+@import './base/css/button.css' layer(components);
+@import './base/css/form.css' layer(components);
+@import './blocks/css/step.css' layer(components);
+@import './blocks/css/blocks.css' layer(components);
+
+@layer base {
+  :root {
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
+  }
+
+  .checkout-container {
+    @apply max-w-[1200px] mx-auto p-4 flex flex-col md:flex-row gap-6;
+  }
+}
+
+@theme inline {
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}

@@ -1,0 +1,20 @@
+{
+  "cartEmpty": "Seu carrinho está vazio.",
+  "cartEmptyInstructions": "Encontre produtos para adicionar navegando pelas categorias ou usando a busca.\n Veja nossas ofertas especiais para começar suas compras.",
+  "requiredError": "Campo obrigatório",
+  "fullNameError": "Digite o seu nome completo",
+  "emailError": "E-mail inválido. Verifique se digitou corretamente",
+  "cpfError": "Digite um CPF válido",
+  "phoneNumberError": "Telefone inválido",
+  "fullName": "Nome completo",
+  "email": "Email",
+  "cpf": "CPF",
+  "phoneNumber": "Celular / WhatsApp",
+  "continue": "Continuar",
+  "customerInfoTitle": "Identifique-se",
+  "customerInfoDescription": "Utilizaremos seu e-mail para: Identificar seu perfil, histórico de compra, notificação de pedidos e carrinho de compras.",
+  "customerAddressTitle": "Endereço",
+  "customerAddressDescription": "Cadastre ou selecione um endereço",
+  "paymentTitle": "Pagamento",
+  "paymentDescription": "Escolha uma forma de pagamento"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "result",
+  "version": "0.0.0",
+  "private": true,
+  "main": "result.ts",
+  "scripts": {
+    "lint": "eslint ."
+  }
+}

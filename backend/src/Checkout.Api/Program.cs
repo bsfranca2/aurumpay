@@ -1,3 +1,5 @@
+using System.IdentityModel.Tokens.Jwt;
+
 using AurumPay.Checkout.Api;
 using AurumPay.Checkout.Api.Infrastructure.Endpoints;
 using AurumPay.Infrastructure.EntityFramework;
@@ -6,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Scalar.AspNetCore;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
@@ -21,11 +23,11 @@ builder.Services.AddInfrastructure(builder.Environment, builder.Configuration);
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+using (IServiceScope scope = app.Services.CreateScope())
 {
-    var databaseContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+    DatabaseContext databaseContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
     await databaseContext.Database.MigrateAsync();
     await databaseContext.Database.EnsureCreatedAsync();
 }
@@ -41,6 +43,7 @@ app.UseHttpsRedirection();
 
 app.UseExceptionHandler();
 
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 app.UseAuthentication()
     .UseAuthorization();
 

@@ -1,0 +1,18 @@
+.button {
+  @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-checkout-bg transition-colors;
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  @apply disabled:pointer-events-none disabled:opacity-50;
+  @apply [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0;
+}
+
+.button--primary {
+  @apply bg-checkout-primary-button text-checkout-primary-button-fg hover:opacity-80;
+}
+
+.button--md {
+  @apply h-10 px-4 py-2;
+}
+
+.button--block {
+  @apply w-full;
+}

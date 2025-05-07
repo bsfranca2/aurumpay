@@ -1,0 +1,16 @@
+{
+  "name": "@aurumpay/vue-the-mask",
+  "version": "0.11.1",
+  "private": true,
+  "author": "Marcos Neves <marcos.neves@gmail.com> (https://vuejs-tips.github.io/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuejs-tips/vue-the-mask.git"
+  },
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "scripts": {
+    "lint": "eslint ."
+  }
+}

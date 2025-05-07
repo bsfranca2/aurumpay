@@ -1,10 +1,10 @@
 using Ardalis.Result;
-using Ardalis.Result.AspNetCore;
 
 using AurumPay.Application.CheckoutSessions.Create;
 using AurumPay.Application.CheckoutSessions.Get;
 using AurumPay.Application.CheckoutSessions.UpdateCustomer;
 using AurumPay.Checkout.Api.Common.Interfaces;
+using AurumPay.Checkout.Api.Infrastructure.Endpoints;
 
 using MediatR;
 
@@ -18,10 +18,12 @@ public class CheckoutEndpoints : IEndpoint
             .WithTags("Checkout");
 
         app.MapGet("/checkout/summary", CheckoutSummary)
-            .WithTags("Checkout");
+            .WithTags("Checkout")
+            .RequireAuthorization();
 
         app.MapPut("/checkout/customer", CheckoutCustomer)
-            .WithTags("Checkout");
+            .WithTags("Checkout")
+            .RequireAuthorization();
     }
 
     private static async Task<IResult> CheckoutInitProduct(CreateCheckoutSessionCommand command, ISender sender)

@@ -1,11 +1,11 @@
 using Ardalis.Result;
-using Ardalis.Result.AspNetCore;
 
 using AurumPay.Application.Customers;
 using AurumPay.Application.Customers.AddAddress;
 using AurumPay.Application.Customers.RemoveAddress;
 using AurumPay.Application.Customers.UpdateAddress;
 using AurumPay.Checkout.Api.Common.Interfaces;
+using AurumPay.Checkout.Api.Infrastructure.Endpoints;
 
 using MediatR;
 

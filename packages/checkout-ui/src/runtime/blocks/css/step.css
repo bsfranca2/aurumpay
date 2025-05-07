@@ -1,0 +1,55 @@
+.step {
+  @apply relative bg-white p-6 rounded-md space-y-6 border-2 border-transparent;
+}
+
+.step--active {
+  @apply border-gray-500;
+}
+.step--active .step-content {
+  @apply block;
+}
+
+.step--filled {
+  @apply bg-green-50;
+}
+.step--filled .step-header__text {
+  @apply text-green-600;
+}
+.step--filled .step-header__track .number {
+  @apply bg-green-600;
+}
+.step--filled .step-resume {
+  @apply block;
+}
+.step--filled .step-header__description {
+  @apply hidden;
+}
+
+.step--blocked {
+  @apply opacity-50;
+}
+
+/*.step:not(.step--active):not(.step--blocked) {*/
+/*  @apply cursor-pointer;*/
+/*}*/
+
+.step-header {
+  @apply relative flex gap-3 text-sm;
+}
+
+.step-header__track .number {
+  @apply mt-1 bg-checkout-fg text-white flex items-center justify-center rounded-full size-5;
+}
+
+.step-header__text {
+  @apply text-checkout-fg;
+}
+
+.step-header__title {
+  @apply text-lg font-bold;
+}
+
+.step-content,
+.step-resume {
+  @apply hidden;
+}

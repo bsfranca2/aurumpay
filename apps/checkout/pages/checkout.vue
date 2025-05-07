@@ -1,89 +1,34 @@
 <script setup lang="ts">
-import CustomerInfoStep from '~/components/checkout/CustomerInfoStep.vue'
-import ShippingInfoStep from '~/components/checkout/ShippingInfoStep.vue'
+import type { CustomerInfo } from '#checkout-ui/types'
+import { CUSTOMER_INFO_HANDLER_KEY } from '#checkout-blocks/constants'
 
 definePageMeta({
   middleware: ['checkout'],
 })
 
-const store = useStoreState()
+provide(CUSTOMER_INFO_HANDLER_KEY, handleData)
+
+const { submitCustomerInfo } = useCheckout()
+
+async function handleData(data: CustomerInfo) {
+  await $fetch('/api/checkout/customer', {
+    method: 'PUT',
+    body: data,
+  })
+  submitCustomerInfo(data)
+}
 </script>
 
 <template>
-  <header class="bg-white w-full shadow py-4">
-    <div class="max-w-7xl mx-auto px-4">
-      <h1 class="text-xl font-semibold text-gray-700">
-        {{ store.name }}
-      </h1>
-    </div>
-  </header>
-
   <div class="checkout-container">
     <div class="left-column">
-      <div class="form-section">
-        <div class="header">
-          <div class="header__track">
-            <div class="number">
-              1
-            </div>
-          </div>
-          <div class="header__text">
-            <p class="font-semibold">
-              Identifique-se
-            </p>
-            <p>
-              Utilizaremos seu e-mail para: Identificar seu perfil, histórico de compra, notificação de pedidos e carrinho de compras.
-            </p>
-          </div>
-        </div>
+      <UCustomerInfo />
 
-        <CustomerInfoStep />
-      </div>
-
-      <div class="form-section">
-        <div class="header">
-          <div class="header__track">
-            <div class="number">
-              2
-            </div>
-          </div>
-          <div class="header__text">
-            <p class="font-semibold">
-              Endereço
-            </p>
-            <p>
-              Cadastre ou selecione um endereço
-            </p>
-          </div>
-        </div>
-
-        <ShippingInfoStep />
-      </div>
+      <UCustomerAddress />
     </div>
 
     <div class="payment-column">
-      <div class="form-section">
-        <div class="header">
-          <div class="header__track">
-            <div class="number">
-              3
-            </div>
-          </div>
-          <div class="header__text">
-            <p class="font-semibold">
-              Pagamento
-            </p>
-            <p>
-              Escolha uma forma de pagamento
-            </p>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <label>Número do Cartão</label>
-          <input type="text" class="input-field">
-        </div>
-      </div>
+      <UPayment />
     </div>
 
     <div class="summary-column">

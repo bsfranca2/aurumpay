@@ -1,0 +1,24 @@
+.label {
+  @apply text-sm font-medium leading-none;
+  @apply peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
+}
+
+.input {
+  @apply flex h-10 w-full rounded-md border border-input bg-checkout-bg px-3 py-2 text-sm ring-offset-checkout-bg;
+  @apply file:border-0 file:bg-transparent file:text-checkout-fg file:text-sm file:font-medium;
+  /*@apply placeholder:text-muted-foreground;*/
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  @apply disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.input[aria-invalid='true'] {
+  @apply bg-destructive/10 border-destructive;
+}
+
+.field {
+  @apply flex flex-col gap-2 mb-4;
+}
+
+.field__message {
+  @apply text-sm font-medium text-destructive;
+}

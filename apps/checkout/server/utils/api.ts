@@ -1,4 +1,6 @@
 import type { H3Event } from 'h3'
+import type { Either } from 'result'
+import type { ProblemDetails } from '~/server/types/api'
 import { decodeJwt } from 'jose'
 import { ofetch } from 'ofetch'
 import { cartCookieName, cartHeaderName, checkoutSessionCookieName, checkoutSessionHeaderName } from '~/lib/cookies'
@@ -12,7 +14,7 @@ export function getApiSdk(event: H3Event) {
     baseURL: apiUrl,
     headers: {
       ...getProxyRequestHeaders(event),
-      ...(checkoutSessionCookie ? { [checkoutSessionHeaderName]: checkoutSessionCookie } : {}),
+      ...(checkoutSessionCookie ? { [checkoutSessionHeaderName]: `Bearer ${checkoutSessionCookie}` } : {}),
       ...(cartCookie ? { [cartHeaderName]: cartCookie } : {}),
     },
     onResponse({ response }) {
@@ -55,4 +57,15 @@ export function getApiSdk(event: H3Event) {
   })
   const apiWithErrorHandler = createApiErrorHandler(api)
   return createApiSdk(apiWithErrorHandler)
+}
+
+export function mapResponse<Left extends ProblemDetails, Right>(response: Either<Left, Right>) {
+  if (response.isLeft()) {
+    throw createError({
+      statusCode: response.value?.status ?? 500,
+      statusMessage: response.value?.title ?? 'Server error',
+      data: response.value,
+    })
+  }
+  return response.value
 }

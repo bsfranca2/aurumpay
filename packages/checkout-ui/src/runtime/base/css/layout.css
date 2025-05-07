@@ -1,0 +1,24 @@
+.header {
+  @apply relative w-full shadow py-4 bg-checkout-header-bg text-checkout-header-fg shadow-xs z-1;
+}
+
+.header__container {
+  @apply max-w-7xl mx-auto px-4;
+}
+
+.header__title {
+  @apply text-xl font-semibold;
+}
+
+.content {
+  @apply relative pt-6 pb-11 min-h-[70vh] text-checkout-fg;
+}
+
+.footer {
+  /* TODO: Change border color */
+  @apply relative pt-8 text-checkout-footer-fg bg-checkout-footer-bg z-1;
+}
+
+.footer__container {
+  @apply pt-7 pb-16 border-t border-t-gray-300;
+}
