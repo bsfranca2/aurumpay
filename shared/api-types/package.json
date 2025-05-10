@@ -1,0 +1,19 @@
+{
+  "name": "@aurumpay/api-types",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    "./checkout": {
+      "types": "./checkout/index.d.ts"
+    }
+  },
+  "scripts": {
+    "generate": "node gen.js http://localhost:5173/openapi/v1.json checkout/index.d.ts"
+  },
+  "devDependencies": {
+    "citty": "^0.1.6",
+    "consola": "^3.4.2",
+    "ofetch": "^1.4.1",
+    "quicktype-core": "^23.1.3"
+  }
+}

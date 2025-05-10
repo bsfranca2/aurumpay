@@ -3,9 +3,12 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 
 using Ardalis.Result;
+
+using Microsoft.AspNetCore.Http;
+
 using IArdalisResult = Ardalis.Result.IResult;
 
-namespace AurumPay.Checkout.Api.Infrastructure.Endpoints;
+namespace AurumPay.Checkout.Presentation;
 
 public static partial class ResultExtensions
 {

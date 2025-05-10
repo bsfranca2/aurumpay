@@ -32,7 +32,7 @@ public class UpdateCheckoutSessionCustomerCommandHandler(
 
         if (customer == null)
         {
-            Customer newCustomer = Customer.Create(checkoutContext.Store.GetCurrentStoreId(), request.FullName,
+            Customer newCustomer = Customer.CreateProspect(checkoutContext.Store.GetCurrentStoreId(), request.FullName,
                 new EmailAddress(request.Email), new Cpf(request.Cpf), new Telephone(request.PhoneNumber));
             customer = await customerRepository.CreateAsync(newCustomer);
         }

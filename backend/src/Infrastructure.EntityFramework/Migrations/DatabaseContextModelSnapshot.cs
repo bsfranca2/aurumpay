@@ -64,7 +64,7 @@ namespace AurumPay.Infrastructure.EntityFramework.Migrations
                     b.Property<long?>("CustomerId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Fingerprint")
+                    b.Property<string>("DeviceFingerprint")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -109,7 +109,10 @@ namespace AurumPay.Infrastructure.EntityFramework.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<string>("MobilePhone")
+                    b.Property<bool>("IsProspect")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("character varying(15)");
@@ -160,15 +163,23 @@ namespace AurumPay.Infrastructure.EntityFramework.Migrations
                     b.Property<bool>("IsMain")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("Neighborhood")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
+                    b.Property<string>("Recipient")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("State")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasMaxLength(2)
+                        .HasColumnType("character varying(2)");
 
                     b.HasKey("Id");
 

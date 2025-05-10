@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <PackageReference Include="Carter"/>
+        <PackageReference Include="Mapster"/>
+        <PackageReference Include="Ardalis.Result.FluentValidation"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Application\Application.csproj"/>
+    </ItemGroup>
+</Project>

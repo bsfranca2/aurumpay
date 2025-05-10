@@ -1,21 +1,17 @@
 <script lang="ts" setup>
 import type { LabelProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
-import { cn } from '@aurumpay/lib/utils'
 import Label from '../Label.vue'
 import { useFormField } from './useFormField'
 
 const props = defineProps<LabelProps & { class?: HTMLAttributes['class'] }>()
 
-const { error, formItemId } = useFormField()
+const { formItemId } = useFormField()
 </script>
 
 <template>
   <Label
-    :class="cn(
-      error && 'text-destructive',
-      props.class,
-    )"
+    :class="props.class"
     :for="formItemId"
   >
     <slot />

@@ -7,5 +7,6 @@ namespace AurumPay.Application.CheckoutSessions.Get;
 public record GetCheckoutSessionQuery : IQuery<Result<CheckoutSessionDto>>;
 
 public record CheckoutSessionDto(
-    IEnumerable<CartItemDto> cartItems
+    IEnumerable<CartItemDto> CartItems,
+    CustomerDto? Customer = null
 );

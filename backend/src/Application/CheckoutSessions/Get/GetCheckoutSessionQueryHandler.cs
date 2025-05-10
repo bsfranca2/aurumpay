@@ -1,5 +1,6 @@
 using Ardalis.Result;
 
+using AurumPay.Application.Customers;
 using AurumPay.Application.Data;
 using AurumPay.Application.SeedWork;
 using AurumPay.Domain.CheckoutSessions;
@@ -26,13 +27,36 @@ internal sealed class GetCheckoutSessionQueryHandler(
         CheckoutSessionId sessionId = maybeSessionId.Value;
         CheckoutSessionDto? session = await dbContext
             .CheckoutSessions
-            .Include(cs => cs.CartItems)
             .Where(cs => cs.Id == sessionId)
             .Select(cs => new CheckoutSessionDto(
                 cs.CartItems.Select(ci => new CartItemDto(
                     ci.ProductId.Value,
                     ci.Quantity
-                ))
+                )),
+                cs.CustomerId != null
+                    ? dbContext.Customers
+                        .Where(c => c.Id == cs.CustomerId)
+                        .Select(c => new CustomerDto(
+                            c.FullName,
+                            c.Email.Value,
+                            c.Cpf.Value,
+                            c.PhoneNumber.Value,
+                            c.Addresses.Select(a => new CustomerAddressDto(
+                                a.Id.Value,
+                                a.Cep.Value,
+                                a.AddressLine1,
+                                a.AddressLine2,
+                                a.Number,
+                                a.Neighborhood,
+                                a.City,
+                                a.State,
+                                a.Recipient,
+                                a.IsMain
+                            )),
+                            c.IsProspect
+                        ))
+                        .FirstOrDefault()
+                    : null
             ))
             .SingleOrDefaultAsync(cancellationToken);
 

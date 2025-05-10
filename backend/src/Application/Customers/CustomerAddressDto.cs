@@ -6,7 +6,9 @@ public record CustomerAddressDto(
     string AddressLine1,
     string AddressLine2,
     string Number,
+    string Neighborhood,
     string City,
     string State,
-    bool isMain
+    string Recipient,
+    bool IsMain
 );

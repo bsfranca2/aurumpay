@@ -1,0 +1,18 @@
+.radio-group {
+  @apply grid gap-3;
+}
+
+.radio-group-item {
+  @apply border-input text-checkout-fg aspect-square size-4 shrink-0 rounded-full border shadow-xs transition-[color,box-shadow] outline-none;
+  @apply aria-invalid:ring-destructive/20 aria-invalid:border-destructive;
+  @apply focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px];
+  @apply disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.radio-group-indicator {
+  @apply relative flex items-center justify-center;
+}
+
+.radio-group-indicator__icon {
+  @apply fill-checkout-fg absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2;
+}

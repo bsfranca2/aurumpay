@@ -10,6 +10,8 @@ public sealed record AddCheckoutSessionCustomerAddressCommand(
     string AddressLine1,
     string AddressLine2,
     string Number,
+    string Neighborhood,
     string City,
-    string State
+    string State,
+    string Recipient
 ) : ICommand<Result<CustomerAddressDto>>;

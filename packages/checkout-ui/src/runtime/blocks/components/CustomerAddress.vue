@@ -1,9 +1,20 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import Step from '../components/Step.vue'
+import { useCheckout } from '../composables/useCheckout'
 import { useCheckoutStep } from '../composables/useCheckoutStep'
 import { ShippingStep } from '../constants'
+import CustomerAddressForm from './CustomerAddressForm.vue'
+import CustomerAddressSelectList from './CustomerAddressSelectList.vue'
 
+const { hasAddress } = useCheckout()
 const { isActive, isFilled, isAccessible } = useCheckoutStep(ShippingStep)
+
+const showList = ref(hasAddress.value)
+
+function onSubmitted() {
+  showList.value = true
+}
 </script>
 
 <template>
@@ -14,5 +25,12 @@ const { isActive, isFilled, isAccessible } = useCheckoutStep(ShippingStep)
     :is-active
     :is-accessible
     :is-filled
-  />
+  >
+    <template v-if="showList">
+      <CustomerAddressSelectList />
+    </template>
+    <template v-else>
+      <CustomerAddressForm @submitted="onSubmitted" />
+    </template>
+  </Step>
 </template>

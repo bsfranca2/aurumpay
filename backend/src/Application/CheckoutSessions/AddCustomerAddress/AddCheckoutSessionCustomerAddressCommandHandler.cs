@@ -32,7 +32,7 @@ internal sealed class AddCheckoutSessionCustomerAddressCommandHandler(
         }
 
         AddCustomerAddressCommand addAddress = new(customerId.Value.Value, request.Cep, request.AddressLine1,
-            request.AddressLine2, request.Number, request.City, request.State, true);
+            request.AddressLine2, request.Number, request.Neighborhood, request.City, request.State, request.Recipient, true);
         return await sender.Send(addAddress, cancellationToken);
     }
 }

@@ -26,8 +26,10 @@ internal sealed class AddCustomerAddressCommandHandler(
             request.AddressLine1,
             request.AddressLine2,
             request.Number,
+            request.Neighborhood,
             request.City,
             request.State,
+            request.Recipient,
             request.IsMain);
 
         customer.AddAddress(address);
@@ -35,6 +37,7 @@ internal sealed class AddCustomerAddressCommandHandler(
         await customerRepository.UpdateAsync(customer);
 
         return Result.Success(new CustomerAddressDto(address.Id.Value, address.Cep.Value, address.AddressLine1,
-            address.AddressLine2, address.Number, address.City, address.State, address.IsMain));
+            address.AddressLine2, address.Number, address.Neighborhood, address.City, address.State, address.Recipient,
+            address.IsMain));
     }
 }

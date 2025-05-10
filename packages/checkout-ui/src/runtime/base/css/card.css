@@ -1,0 +1,15 @@
+.content-action-card {
+  @apply flex justify-between items-start w-full;
+}
+
+.content-action-card__title {
+  @apply font-medium text-gray-800 text-xs;
+}
+
+.content-action-card__description {
+  @apply text-xs text-gray-600;
+}
+
+.content-action-card__actions-area {
+  @apply flex flex-col space-y-1.5 text-xs text-gray-600 flex-shrink-0 ml-2;
+}

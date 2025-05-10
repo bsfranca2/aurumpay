@@ -38,7 +38,7 @@
 }
 
 .step-header__track .number {
-  @apply mt-1 bg-checkout-fg text-white flex items-center justify-center rounded-full size-5;
+  @apply mt-1 bg-checkout-fg text-white text-xs size-5 flex items-center justify-center rounded-full tabular-nums;
 }
 
 .step-header__text {

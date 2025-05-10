@@ -8,31 +8,33 @@ public sealed class Customer : IEntity<CustomerId>
 {
     private readonly List<CustomerAddress> _addresses = [];
 
-    public CustomerId Id { get; set; }
+    public CustomerId Id { get; init; }
     public StoreId StoreId { get; }
-    public string FullName { get; }
+    public string FullName { get; set; }
     public EmailAddress Email { get; }
     public Cpf Cpf { get; }
-    public Telephone MobilePhone { get; }
+    public Telephone PhoneNumber { get; }
     public IReadOnlyCollection<CustomerAddress> Addresses => _addresses.AsReadOnly();
+    public bool IsProspect { get; private set; }
 
     public CustomerAddress? MainAddress => _addresses.FirstOrDefault(a => a.IsMain);
 
     private Customer(CustomerId id, StoreId storeId, string fullName, EmailAddress email, Cpf cpf,
-        Telephone mobilePhone)
+        Telephone phoneNumber, bool isProspect)
     {
         Id = id;
         StoreId = storeId;
         FullName = fullName;
         Email = email;
         Cpf = cpf;
-        MobilePhone = mobilePhone;
+        PhoneNumber = phoneNumber;
+        IsProspect = isProspect;
     }
 
-    public static Customer Create(StoreId storeId, string fullName, EmailAddress email, Cpf cpf,
+    public static Customer CreateProspect(StoreId storeId, string fullName, EmailAddress email, Cpf cpf,
         Telephone mobilePhone)
     {
-        return new Customer(new CustomerId(), storeId, fullName, email, cpf, mobilePhone);
+        return new Customer(new CustomerId(), storeId, fullName, email, cpf, mobilePhone, true);
     }
 
     public void AddAddress(CustomerAddress address)
@@ -53,9 +55,8 @@ public sealed class Customer : IEntity<CustomerId>
     public void UpdateAddress(CustomerAddress address)
     {
         CustomerAddress? existingAddress = _addresses.FirstOrDefault(a => a.Id == address.Id) ??
-                                           throw new InvalidOperationException(
-                                               $"Address with ID {address.Id} not found.");
-        
+                                           throw new InvalidOperationException($"Address with ID {address.Id} not found.");
+
         if (address.IsMain && !existingAddress.IsMain)
         {
             CustomerAddress? currentMainAddress = _addresses.FirstOrDefault(a => a.IsMain);

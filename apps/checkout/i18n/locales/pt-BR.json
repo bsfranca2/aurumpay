@@ -16,5 +16,14 @@
   "customerAddressTitle": "Endereço",
   "customerAddressDescription": "Cadastre ou selecione um endereço",
   "paymentTitle": "Pagamento",
-  "paymentDescription": "Escolha uma forma de pagamento"
+  "paymentDescription": "Escolha uma forma de pagamento",
+  "zipCode": "CEP",
+  "addressLine1": "Endereço",
+  "number": "Número",
+  "neighborhood": "Bairro",
+  "zipCodeError": "CEP inválido",
+  "fieldRequired": "Campo obrigatório",
+  "fieldInvalid": "Campo inválido",
+  "addressLine2": "Complemento",
+  "recipient": "Destinatário"
 }

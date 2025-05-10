@@ -12,20 +12,24 @@ public class CustomerAddress : IEntity<CustomerAddressId>
     public string AddressLine1 { get; private set; }
     public string AddressLine2 { get; private set; }
     public string Number { get; private set; }
+    public string Neighborhood { get; private set; }
     public string City { get; private set; }
     public string State { get; private set; }
+    public string Recipient { get; private set; }
     public bool IsMain { get; private set; }
 
     public CustomerAddress(CustomerAddressId id, Cep cep, string addressLine1, string addressLine2, string number,
-        string city, string state, bool isMain = false)
+        string neighborhood, string city, string state, string recipient, bool isMain = false)
     {
         Id = id;
         Cep = cep;
         AddressLine1 = Guard.Against.NullOrWhiteSpace(addressLine1);
         AddressLine2 = addressLine2;
         Number = Guard.Against.NullOrWhiteSpace(number);
+        Neighborhood = Guard.Against.NullOrWhiteSpace(neighborhood);
         City = Guard.Against.NullOrWhiteSpace(city);
         State = Guard.Against.NullOrWhiteSpace(state);
+        Recipient = Guard.Against.NullOrWhiteSpace(recipient);
         IsMain = isMain;
     }
 

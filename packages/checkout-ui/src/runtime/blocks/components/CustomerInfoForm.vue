@@ -9,44 +9,18 @@ import {
 } from '#checkout-base/components/form'
 import Input from '#checkout-base/components/Input.vue'
 import { useI18n } from '#imports'
-import { validateCPF, validateFullName } from '@aurumpay/lib/checkout'
 import { toTypedSchema } from '@vee-validate/valibot'
-import { Loader2 } from 'lucide-vue-next'
-import { custom, length, maxLength, minLength, object, pipe, rfcEmail, string, transform } from 'valibot'
 import { useForm } from 'vee-validate'
 import { inject } from 'vue'
+import { createCustomerSchema } from '#checkout-ui/schemas'
 import { CUSTOMER_INFO_HANDLER_KEY } from '../constants'
-import { mapToFormErrors } from '../utils'
+import { mapToFormErrors, noop } from '../utils'
+
+const handler = inject(CUSTOMER_INFO_HANDLER_KEY, noop)
 
 const { t } = useI18n()
-const handler = inject(CUSTOMER_INFO_HANDLER_KEY)!
 
-const customerInfoSchema = object({
-  fullName: pipe(
-    string(t('requiredError')),
-    transform(s => s.trim()),
-    custom(validateFullName, t('fullNameError')),
-  ),
-
-  email: pipe(
-    string(t('requiredError')),
-    rfcEmail(t('emailError')),
-  ),
-
-  cpf: pipe(
-    string(t('requiredError')),
-    transform(s => s.replace(/\D/g, '')),
-    length(11, t('cpfError')),
-    custom(validateCPF, t('cpfError')),
-  ),
-
-  phoneNumber: pipe(
-    string(t('requiredError')),
-    transform(s => s.replace(/\D/g, '')),
-    minLength(10, t('phoneNumberError')),
-    maxLength(11, t('phoneNumberError')),
-  ),
-})
+const customerInfoSchema = createCustomerSchema(t)
 
 const { isSubmitting, handleSubmit, setFieldError } = useForm({
   validationSchema: toTypedSchema(customerInfoSchema),
@@ -101,8 +75,7 @@ const onSubmit = handleSubmit(async (values) => {
     </FormField>
 
     <div>
-      <Button type="submit" :disabled="isSubmitting" block>
-        <Loader2 v-if="isSubmitting" class="w-4 h-4 mr-2 animate-spin" />
+      <Button type="submit" :loading="isSubmitting" block>
         {{ $t('continue') }}
       </Button>
     </div>

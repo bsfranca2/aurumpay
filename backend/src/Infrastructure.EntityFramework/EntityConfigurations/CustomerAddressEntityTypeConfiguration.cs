@@ -45,16 +45,14 @@ public class CustomerAddressEntityTypeConfiguration : IEntityTypeConfiguration<C
         customerAddressConfiguration
             .Property(ca => ca.Number)
             .HasMaxLength(50);
-
-        // TODO: Check city database
+        
         customerAddressConfiguration
             .Property(ca => ca.City)
             .HasMaxLength(255);
-
-        // TODO: Check state database
+        
         customerAddressConfiguration
             .Property(ca => ca.State)
-            .HasMaxLength(255);
+            .HasMaxLength(2);
 
         customerAddressConfiguration.Property(ca => ca.IsMain);
     }

@@ -80,6 +80,7 @@ namespace AurumPay.Infrastructure.EntityFramework.Migrations
                         .Annotation("Npgsql:IdentitySequenceOptions", "'1000', '1', '', '', 'False', '1'")
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     StoreId = table.Column<long>(type: "bigint", nullable: false),
+                    PublicId = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     Price = table.Column<decimal>(type: "numeric(12,2)", precision: 12, scale: 2, nullable: false)
                 },
@@ -100,7 +101,7 @@ namespace AurumPay.Infrastructure.EntityFramework.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     StoreId = table.Column<long>(type: "bigint", nullable: false),
-                    Fingerprint = table.Column<string>(type: "text", nullable: false),
+                    DeviceFingerprint = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     CustomerId = table.Column<long>(type: "bigint", nullable: true)
                 },
@@ -131,8 +132,10 @@ namespace AurumPay.Infrastructure.EntityFramework.Migrations
                     AddressLine1 = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     AddressLine2 = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     Number = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Neighborhood = table.Column<string>(type: "text", nullable: false),
                     City = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    State = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    State = table.Column<string>(type: "character varying(2)", maxLength: 2, nullable: false),
+                    Recipient = table.Column<string>(type: "text", nullable: false),
                     IsMain = table.Column<bool>(type: "boolean", nullable: false),
                     CustomerId = table.Column<long>(type: "bigint", nullable: false)
                 },
@@ -180,7 +183,7 @@ namespace AurumPay.Infrastructure.EntityFramework.Migrations
                 columns: new[] { "CheckoutSessionId", "ProductId" },
                 unique: true);
 #pragma warning restore CA1861
-
+            
             migrationBuilder.CreateIndex(
                 name: "IX_CartItems_ProductId",
                 table: "CartItems",
@@ -208,18 +211,21 @@ namespace AurumPay.Infrastructure.EntityFramework.Migrations
                 columns: new[] { "StoreId", "Email" },
                 unique: true);
 #pragma warning restore CA1861
-
+            
             migrationBuilder.CreateIndex(
                 name: "IX_Merchants_Email",
                 table: "Merchants",
                 column: "Email",
                 unique: true);
 
+#pragma warning disable CA1861
             migrationBuilder.CreateIndex(
-                name: "IX_Products_StoreId",
+                name: "IX_Products_StoreId_PublicId",
                 table: "Products",
-                column: "StoreId");
-
+                columns: new[] { "StoreId", "PublicId" },
+                unique: true);
+#pragma warning restore CA1861
+            
             migrationBuilder.CreateIndex(
                 name: "IX_Stores_MerchantId",
                 table: "Stores",

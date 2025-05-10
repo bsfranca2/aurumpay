@@ -48,7 +48,7 @@ public class CustomerEntityTypeConfiguration : IEntityTypeConfiguration<Customer
             .HasMaxLength(11);
 
         customerConfiguration
-            .Property(c => c.MobilePhone)
+            .Property(c => c.PhoneNumber)
             .HasConversion(new TelephoneConverter())
             .HasMaxLength(15);
 

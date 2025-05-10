@@ -41,12 +41,14 @@
     "test": "vitest run --coverage"
   },
   "dependencies": {
+    "@aurumpay/api-types": "workspace:*",
     "@aurumpay/lib": "workspace:*",
     "@nuxt/kit": "^3.16.2",
     "@nuxt/schema": "^3.16.2",
     "@nuxtjs/i18n": "^9.5.4",
     "@tailwindcss/vite": "^4.1.5",
     "@vee-validate/valibot": "^4.15.0",
+    "@vueuse/core": "^13.1.0",
     "defu": "^6.1.4",
     "lucide-vue-next": "^0.508.0",
     "reka-ui": "^2.2.0",

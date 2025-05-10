@@ -16,3 +16,7 @@
 .button--block {
   @apply w-full;
 }
+
+.button__spinner {
+  @apply w-4 h-4 mr-2 animate-spin;
+}

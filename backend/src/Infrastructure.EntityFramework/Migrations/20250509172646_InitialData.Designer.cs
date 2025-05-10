@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AurumPay.Infrastructure.EntityFramework.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20250419204034_InitialData")]
+    [Migration("20250509172646_InitialData")]
     partial class InitialData
     {
         /// <inheritdoc />
@@ -43,12 +43,18 @@ namespace AurumPay.Infrastructure.EntityFramework.Migrations
                         .HasPrecision(12, 2)
                         .HasColumnType("numeric(12,2)");
 
+                    b.Property<string>("PublicId")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
                     b.Property<long>("StoreId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StoreId");
+                    b.HasIndex("StoreId", "PublicId")
+                        .IsUnique();
 
                     b.ToTable("Products", (string)null);
                 });
@@ -61,7 +67,7 @@ namespace AurumPay.Infrastructure.EntityFramework.Migrations
                     b.Property<long?>("CustomerId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Fingerprint")
+                    b.Property<string>("DeviceFingerprint")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -157,15 +163,23 @@ namespace AurumPay.Infrastructure.EntityFramework.Migrations
                     b.Property<bool>("IsMain")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("Neighborhood")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
+                    b.Property<string>("Recipient")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("State")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasMaxLength(2)
+                        .HasColumnType("character varying(2)");
 
                     b.HasKey("Id");
 

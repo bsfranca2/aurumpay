@@ -33,8 +33,10 @@ internal sealed class GetCustomerAddressesQueryHandler(IDatabaseContext context)
                 a.AddressLine1,
                 a.AddressLine2,
                 a.Number,
+                a.Neighborhood,
                 a.City,
                 a.State,
+                a.Recipient,
                 a.IsMain
             ))
             .ToListAsync(cancellationToken);

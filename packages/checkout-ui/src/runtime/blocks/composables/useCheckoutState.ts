@@ -1,8 +1,9 @@
-import type { CustomerInfo } from '../../types'
+import type { CustomerAddress, CustomerInfo } from '../../types'
 import { useState } from '#imports'
 
 interface CheckoutState {
   customerInfo: CustomerInfo
+  addresses: CustomerAddress[]
 }
 
 export function useCheckoutState() {
@@ -13,5 +14,6 @@ export function useCheckoutState() {
       cpf: '',
       phoneNumber: '',
     },
+    addresses: [],
   }))
 }

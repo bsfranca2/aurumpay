@@ -9,21 +9,19 @@ namespace AurumPay.Domain.CheckoutSessions;
 public sealed class CheckoutSession : IEntity<CheckoutSessionId>
 {
     private readonly HashSet<CartItem> _cartItems = [];
-
     public CheckoutSessionId Id { get; init; }
     public StoreId StoreId { get; init; }
-    // TODO: Rename to DeviceFingerprint
-    public string Fingerprint { get; init; }
-    public CheckoutStatus Status { get; private set;  }
+    public string DeviceFingerprint { get; init; }
+    public CheckoutStatus Status { get; private set; }
     public IReadOnlyCollection<CartItem> CartItems => _cartItems.ToList();
     public CustomerId? CustomerId { get; private set; }
 
-    private CheckoutSession(CheckoutSessionId id, StoreId storeId, string fingerprint, CheckoutStatus status,
-        CustomerId? customerId)
+    private CheckoutSession(CheckoutSessionId id, StoreId storeId, string deviceFingerprint, CheckoutStatus status,
+        CustomerId? customerId = null)
     {
         Id = id;
         StoreId = storeId;
-        Fingerprint = fingerprint;
+        DeviceFingerprint = deviceFingerprint;
         Status = status;
         CustomerId = customerId;
     }
@@ -32,8 +30,7 @@ public sealed class CheckoutSession : IEntity<CheckoutSessionId>
     {
         Guard.Against.Zero(cartItems.Count, nameof(cartItems));
 
-        CheckoutSession checkoutSession =
-            new(new CheckoutSessionId(), storeId, fingerprint, CheckoutStatus.Pending, null);
+        CheckoutSession checkoutSession = new(new CheckoutSessionId(), storeId, fingerprint, CheckoutStatus.Pending);
 
         foreach (CartItem cartItem in cartItems)
         {

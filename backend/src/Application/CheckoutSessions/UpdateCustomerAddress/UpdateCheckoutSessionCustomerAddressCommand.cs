@@ -10,7 +10,9 @@ public sealed record UpdateCheckoutSessionCustomerAddressCommand(
     string Cep,
     string AddressLine1,
     string AddressLine2,
+    string Neighborhood,
     string Number,
     string City,
-    string State
+    string State,
+    string Recipient   
 ) : ICommand<Result<CustomerAddressDto>>;

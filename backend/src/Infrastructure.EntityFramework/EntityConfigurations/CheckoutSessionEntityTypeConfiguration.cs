@@ -28,47 +28,49 @@ public class CheckoutSessionEntityTypeConfiguration : IEntityTypeConfiguration<C
             .WithMany()
             .HasForeignKey(cs => cs.StoreId);
 
-        checkoutSessionConfiguration.Property(cs => cs.Fingerprint)
+        checkoutSessionConfiguration.Property(cs => cs.DeviceFingerprint)
             .HasColumnType("text");
 
         // TODO: Improve
         checkoutSessionConfiguration.Property(cs => cs.Status)
             .HasConversion<string>()
             .HasMaxLength(30);
-        
+
         checkoutSessionConfiguration.OwnsMany(cs => cs.CartItems, cartItemBuilder =>
         {
             cartItemBuilder.ToTable("CartItems");
-            
+
             cartItemBuilder.Property<Guid>("Id")
                 .HasValueGenerator<UlidValueGenerator>()
                 .ValueGeneratedOnAdd();
             cartItemBuilder.HasKey("Id");
-            
+
             cartItemBuilder.Property<CheckoutSessionId>("CheckoutSessionId")
                 .HasConversion(new CheckoutSessionIdConverter());
-                
+
             cartItemBuilder.Property(ci => ci.ProductId)
                 .HasConversion(new ProductIdConverter());
-            
+
             cartItemBuilder.HasIndex("CheckoutSessionId", nameof(CartItem.ProductId))
                 .IsUnique();
-            
+
             cartItemBuilder.HasOne<Product>()
                 .WithMany()
                 .HasForeignKey(ci => ci.ProductId);
-            
+
             cartItemBuilder.Property(ci => ci.Quantity).HasColumnType("integer");
         });
-        
-        checkoutSessionConfiguration.Property(cs => cs.CustomerId)
+
+        checkoutSessionConfiguration
+            .Property(cs => cs.CustomerId)
             .HasConversion(
                 customerId => customerId.HasValue ? customerId.Value.Value : (long?)null,
                 value => value.HasValue ? new CustomerId(value.Value) : null
             );
 
         // TODO: Verificar se realmente vai ser necessário esse index de checkoutSession_customer
-        checkoutSessionConfiguration.HasOne<Customer>()
+        checkoutSessionConfiguration
+            .HasOne<Customer>()
             .WithMany()
             .HasForeignKey(cs => cs.CustomerId);
     }

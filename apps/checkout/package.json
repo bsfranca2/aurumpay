@@ -11,10 +11,12 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@aurumpay/api-types": "workspace:*",
     "@aurumpay/checkout-ui": "workspace:*",
     "@aurumpay/vue-the-mask": "workspace:*",
     "@vee-validate/valibot": "^4.15.0",
     "@vueuse/core": "^13.1.0",
+    "cep-promise": "^4.4.1",
     "class-variance-authority": "^0.7.1",
     "jose": "^6.0.10",
     "lucide-vue-next": "^0.503.0",

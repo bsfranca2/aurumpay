@@ -97,7 +97,7 @@ public class CreateCheckoutSessionCommandHandlerTests
         _mockSessionRepository.Verify(r => r.CreateAsync(
                 It.Is<CheckoutSession>(s =>
                     s.StoreId.Equals(storeId) &&
-                    s.Fingerprint == fingerprint)),
+                    s.DeviceFingerprint == fingerprint)),
             Times.Once);
 
         // Verify session was established
@@ -150,7 +150,7 @@ public class CreateCheckoutSessionCommandHandlerTests
         _mockSessionRepository.Verify(r => r.CreateAsync(
                 It.Is<CheckoutSession>(s =>
                     s.StoreId.Equals(storeId) &&
-                    s.Fingerprint == fingerprint)),
+                    s.DeviceFingerprint == fingerprint)),
             Times.Once);
     }
 

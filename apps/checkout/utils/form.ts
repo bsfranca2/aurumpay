@@ -8,3 +8,8 @@ export function mapToFormErrors(setFieldError: FormContext['setFieldError'], res
     setFieldError(fieldName, errors[fieldName][0])
   }
 }
+
+// export function mapToValidationErrors(response: ErrorWithProblemDetails) {
+//   const errors = response.data.data.validationErrors ?? null
+//   return errors
+// }

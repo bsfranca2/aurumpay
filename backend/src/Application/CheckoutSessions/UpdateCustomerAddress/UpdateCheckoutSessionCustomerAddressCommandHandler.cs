@@ -32,7 +32,8 @@ internal sealed class UpdateCheckoutSessionCustomerAddressCommandHandler(
         }
 
         UpdateCustomerAddressCommand updateAddress = new(customerId.Value.Value, request.AddressId, request.Cep,
-            request.AddressLine1, request.AddressLine2, request.Number, request.City, request.State, true);
+            request.AddressLine1, request.AddressLine2, request.Number, request.Neighborhood, request.City, request.State,
+            request.Recipient, true);
         return await sender.Send(updateAddress, cancellationToken);
     }
 }

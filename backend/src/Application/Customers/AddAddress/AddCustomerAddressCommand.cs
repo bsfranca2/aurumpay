@@ -10,7 +10,9 @@ public sealed record AddCustomerAddressCommand(
     string AddressLine1,
     string AddressLine2,
     string Number,
+    string Neighborhood,
     string City,
     string State,
+    string Recipient,
     bool IsMain
 ) : ICommand<Result<CustomerAddressDto>>;
