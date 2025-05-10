@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { CUSTOMER_ADDRESS_SELECT_HANDLER_KEY } from '#checkout-blocks/constants'
+import { noop } from '#checkout-blocks/utils'
 import { toTypedSchema } from '@vee-validate/valibot'
 import { number, object } from 'valibot'
 import { useForm } from 'vee-validate'
+import { inject } from 'vue'
 import Button from '../../base/components/Button.vue'
 import {
   FormControl,
@@ -11,6 +14,8 @@ import {
 import { RadioCardGroup, RadioCardItem } from '../../base/components/radio-card'
 import { useCheckout } from '../composables/useCheckout'
 import AddressCard from './AddressCard.vue'
+
+const handler = inject(CUSTOMER_ADDRESS_SELECT_HANDLER_KEY, noop)
 
 const { addresses } = useCheckout()
 
@@ -24,8 +29,8 @@ const { isSubmitting, handleSubmit } = useForm({
   },
 })
 
-const onSubmit = handleSubmit(() => {
-  console.log('selected address')
+const onSubmit = handleSubmit(async () => {
+  await handler()
 })
 </script>
 

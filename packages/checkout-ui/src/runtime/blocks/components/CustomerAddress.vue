@@ -7,7 +7,7 @@ import { ShippingStep } from '../constants'
 import CustomerAddressForm from './CustomerAddressForm.vue'
 import CustomerAddressSelectList from './CustomerAddressSelectList.vue'
 
-const { hasAddress } = useCheckout()
+const { mainAddress, hasAddress } = useCheckout()
 const { isActive, isFilled, isAccessible } = useCheckoutStep(ShippingStep)
 
 const showList = ref(hasAddress.value)
@@ -31,6 +31,14 @@ function onSubmitted() {
     </template>
     <template v-else>
       <CustomerAddressForm @submitted="onSubmitted" />
+    </template>
+
+    <template #resume>
+      <p class="font-medium">
+        Endereço selecionado:
+      </p>
+      <p>{{ `${mainAddress?.addressLine1}, ${mainAddress?.number} - ${mainAddress?.neighborhood}` }}</p>
+      <p>{{ `${mainAddress?.city}-${mainAddress?.state} | CEP ${mainAddress?.cep}` }}</p>
     </template>
   </Step>
 </template>

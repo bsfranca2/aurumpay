@@ -28,3 +28,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 }
+
+.font-medium {
+  @apply font-medium;
+}

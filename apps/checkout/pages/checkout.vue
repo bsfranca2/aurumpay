@@ -3,6 +3,7 @@ import type { Cep, CustomerInfo, ShippingAddress } from '#checkout-ui/types'
 import {
   CEP_HANDLER_KEY,
   CUSTOMER_ADDRESS_HANDLER_KEY,
+  CUSTOMER_ADDRESS_SELECT_HANDLER_KEY,
   CUSTOMER_INFO_HANDLER_KEY,
 } from '#checkout-blocks/constants'
 
@@ -13,8 +14,9 @@ definePageMeta({
 provide(CUSTOMER_INFO_HANDLER_KEY, handleCustomer)
 provide(CEP_HANDLER_KEY, handleCep)
 provide(CUSTOMER_ADDRESS_HANDLER_KEY, handleAddress)
+provide(CUSTOMER_ADDRESS_SELECT_HANDLER_KEY, handleSelectAddress)
 
-const { submitCustomerInfo, saveAddress } = useCheckout()
+const { submitCustomerInfo, saveAddress, submitShippingAddress } = useCheckout()
 
 async function sync() {
   const response = await $fetch('/api/checkout/summary', {
@@ -25,6 +27,9 @@ async function sync() {
     response.customer.addresses.forEach((address) => {
       saveAddress(address)
     })
+    if (response.customer.addresses.length) {
+      submitShippingAddress()
+    }
   }
 }
 
@@ -61,6 +66,10 @@ async function handleAddress(data: ShippingAddress) {
   catch (error) {
     return error.data.data
   }
+}
+
+async function handleSelectAddress() {
+  submitShippingAddress()
 }
 
 await callOnce(async () => sync())

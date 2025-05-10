@@ -21,7 +21,7 @@ const { isActive, isFilled, isAccessible } = useCheckoutStep(CustomerStep)
     <CustomerInfoForm />
 
     <template #resume>
-      <p class="font-bold">
+      <p class="font-medium">
         {{ checkout.customerInfo.fullName }}
       </p>
       <p>{{ checkout.customerInfo.email }}<br>{{ $t('cpf') }} {{ checkout.customerInfo.cpf }}</p>

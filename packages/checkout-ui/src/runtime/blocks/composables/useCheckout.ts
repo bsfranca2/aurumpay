@@ -1,6 +1,6 @@
-import { computed } from 'vue'
 import type { CustomerAddress, CustomerInfo, ExistingAddress } from '../../types'
-import { CustomerStep } from '../constants'
+import { computed } from 'vue'
+import { CustomerStep, ShippingStep } from '../constants'
 import { useCheckoutState } from './useCheckoutState'
 import { useCheckoutStepper } from './useCheckoutStepper'
 import { useCheckoutSubmitted } from './useCheckoutSubmitted'
@@ -11,6 +11,7 @@ export function useCheckout() {
   const stepper = useCheckoutStepper()
 
   const hasAddress = computed(() => !!checkout.value.addresses.length)
+  const mainAddress = computed(() => checkout.value.addresses.find(address => address.isMain))
 
   function submitCustomerInfo(customerInfo: CustomerInfo) {
     checkout.value.customerInfo = customerInfo
@@ -31,20 +32,21 @@ export function useCheckout() {
     }
   }
 
-  // function submitShippingAddress() {
-  //   form.submit(ShippingStep)
-  //   stepper.goToNext()
-  // }
+  function submitShippingAddress() {
+    form.submit(ShippingStep)
+    stepper.goToNext()
+  }
 
   const getters = {
     ...checkout.value,
     hasAddress,
+    mainAddress,
   }
 
   const actions = {
     submitCustomerInfo,
     saveAddress,
-    // submitShippingAddress,
+    submitShippingAddress,
   }
 
   return { ...getters, ...actions }
