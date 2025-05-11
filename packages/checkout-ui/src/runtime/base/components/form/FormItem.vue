@@ -6,10 +6,11 @@ import { provide } from 'vue'
 import { FORM_ITEM_INJECTION_KEY } from './injectionKeys'
 
 const props = defineProps<{
+  id?: string
   class?: HTMLAttributes['class']
 }>()
 
-const id = useId()
+const id = props.id ?? useId()
 provide(FORM_ITEM_INJECTION_KEY, id)
 </script>
 

@@ -95,7 +95,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <form @submit="onSubmit">
+  <form class="form" @submit="onSubmit">
     <FormField v-slot="{ componentField }" name="zipCode">
       <FormItem class="mb-4">
         <FormLabel>{{ $t('zipCode') }}</FormLabel>

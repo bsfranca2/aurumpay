@@ -1,4 +1,4 @@
-import type { ProblemDetails } from '~/server/types/api'
+import type { ProblemDetails } from '#shared/types/api'
 import { FetchError } from 'ofetch'
 
 export type ErrorWithProblemDetails = FetchError & {

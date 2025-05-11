@@ -23,7 +23,11 @@ export interface AddCustomerAddress {
 }
 
 export interface CartItem {
-  productId: number
+  product: {
+    id: number
+    name: string
+    price: number
+  }
   quantity: number
 }
 

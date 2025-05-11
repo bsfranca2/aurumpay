@@ -1,4 +1,4 @@
-import { cartCookieName } from '~/lib/cookies'
+import { cartCookieName } from '#shared/lib/cookies'
 
 export default defineEventHandler(async (event) => {
   const apiSdk = getApiSdk(event)

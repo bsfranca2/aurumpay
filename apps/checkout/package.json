@@ -20,7 +20,7 @@
     "class-variance-authority": "^0.7.1",
     "jose": "^6.0.10",
     "lucide-vue-next": "^0.503.0",
-    "nuxt": "^3.16.2",
+    "nuxt": "^4.0.1",
     "reka-ui": "^2.2.0",
     "result": "workspace:*",
     "valibot": "^1.0.0",

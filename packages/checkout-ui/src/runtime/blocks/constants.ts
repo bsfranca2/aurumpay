@@ -1,6 +1,7 @@
 import type { InjectionKey } from 'vue'
 import type {
   Cep,
+  CreditCardPayment,
   CustomerInfo,
   FormHandlerResponse,
   ShippingAddress,
@@ -19,3 +20,6 @@ export const CUSTOMER_ADDRESS_HANDLER_KEY = Symbol('CUSTOMER_ADDRESS_HANDLER_KEY
 export const CEP_HANDLER_KEY = Symbol('CEP_HANDLER_KEY') as InjectionKey<(cep: string) => Promise<Cep>>
 export const CUSTOMER_ADDRESS_ID_KEY = Symbol('CUSTOMER_ADDRESS_ID_KEY') as InjectionKey<number | undefined>
 export const CUSTOMER_ADDRESS_SELECT_HANDLER_KEY = Symbol('CUSTOMER_ADDRESS_SELECT_HANDLER_KEY') as InjectionKey<() => Promise<void>>
+
+type CreditCardFormHandler = (data: CreditCardPayment) => Promise<FormHandlerResponse>
+export const CREDIT_CARD_FORM_KEY = Symbol('CREDIT_CARD_FORM_KEY') as InjectionKey<CreditCardFormHandler>

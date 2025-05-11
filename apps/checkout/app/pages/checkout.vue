@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import type { Cep, CustomerInfo, ShippingAddress } from '#checkout-ui/types'
+import type { Cep, CreditCardPayment, CustomerInfo, ShippingAddress } from '#checkout-ui/types'
 import {
   CEP_HANDLER_KEY,
+  CREDIT_CARD_FORM_KEY,
   CUSTOMER_ADDRESS_HANDLER_KEY,
   CUSTOMER_ADDRESS_SELECT_HANDLER_KEY,
   CUSTOMER_INFO_HANDLER_KEY,
@@ -15,8 +16,15 @@ provide(CUSTOMER_INFO_HANDLER_KEY, handleCustomer)
 provide(CEP_HANDLER_KEY, handleCep)
 provide(CUSTOMER_ADDRESS_HANDLER_KEY, handleAddress)
 provide(CUSTOMER_ADDRESS_SELECT_HANDLER_KEY, handleSelectAddress)
+provide(CREDIT_CARD_FORM_KEY, handleCreditCard)
 
-const { submitCustomerInfo, saveAddress, submitShippingAddress } = useCheckout()
+const {
+  total,
+  submitCustomerInfo,
+  saveAddress,
+  submitShippingAddress,
+  setCartItems,
+} = useCheckout()
 
 async function sync() {
   const response = await $fetch('/api/checkout/summary', {
@@ -30,6 +38,9 @@ async function sync() {
     if (response.customer.addresses.length) {
       submitShippingAddress()
     }
+  }
+  if (response.cartItems) {
+    setCartItems(response.cartItems)
   }
 }
 
@@ -61,7 +72,6 @@ async function handleAddress(data: ShippingAddress) {
       body: data,
     })
     saveAddress(response)
-    console.log('success response', response)
   }
   catch (error) {
     return error.data.data
@@ -70,6 +80,18 @@ async function handleAddress(data: ShippingAddress) {
 
 async function handleSelectAddress() {
   submitShippingAddress()
+}
+
+async function handleCreditCard(data: CreditCardPayment) {
+  try {
+    await $fetch('/api/checkout/payment', {
+      method: 'POST',
+      body: data,
+    })
+  }
+  catch (error) {
+    return error.data.data
+  }
 }
 
 await callOnce(async () => sync())
@@ -93,8 +115,8 @@ await callOnce(async () => sync())
           Resumo da Compra
         </h2>
         <div class="summary-item">
-          <span>Produtos:</span>
-          <span>R$ 999,00</span>
+          <span>Total:</span>
+          <span>R$ {{ total.toFixed(2) }}</span>
         </div>
       </div>
     </div>

@@ -35,6 +35,9 @@ export default defineNuxtConfig({
     checkoutSessionExpiration: 60 * 60 * 1000, // 1 hour
     cartMaxAge: 60 * 60 * 24 * 7, // 7 days
     apiUrl: 'http://localhost:5019',
+    public: {
+      mercadoPagoPublicKey: '',
+    },
   },
 
   modules: ['@nuxtjs/i18n', '@nuxt/fonts', '@aurumpay/checkout-ui'],

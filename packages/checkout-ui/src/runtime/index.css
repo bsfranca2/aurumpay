@@ -32,3 +32,60 @@
 .font-medium {
   @apply font-medium;
 }
+
+.cvv {
+  @apply grid grid-cols-2 gap-4;
+}
+
+.tooltip-content {
+  /*@apply bg-primary text-primary-foreground animate-in fade-in-0 zoom-in-95 z-50 w-fit rounded-md px-3 py-1.5 text-xs text-balance;*/
+  @apply bg-checkout-bg text-checkout-fg z-50 w-fit rounded-md px-3 py-1.5 text-xs text-balance;
+  /*@apply data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2;*/
+  /*@apply data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2;*/
+}
+
+.tooltip-content__arrow {
+  @apply bg-checkout-bg fill-checkout-fg z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px];
+}
+
+#form-checkout {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+}
+
+.field-container {
+  @apply flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-checkout-bg;
+}
+.field-container--focused {
+  @apply bg-checkout-bg outline-none ring-2 ring-ring ring-offset-2;
+}
+.field-container--error {
+  @apply bg-destructive/10 border-destructive;
+}
+
+#loading-message {
+  display: none;
+}
+
+#form-checkout__issuer,
+#form-checkout__identificationType,
+#form-checkout__email {
+  display: none;
+}
+
+.hidden {
+  display: none;
+}
+
+.form {
+  @apply flex flex-col gap-1.5;
+}
+
+.poweredbymercadopago {
+  @apply mt-4 text-sm text-gray-500 text-center;
+}
+
+.poweredbymercadopago svg {
+  @apply w-4 h-4 inline-block ml-1 text-emerald-500;
+}

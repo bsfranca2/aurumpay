@@ -2,6 +2,7 @@
 import Step from '../components/Step.vue'
 import { useCheckoutStep } from '../composables/useCheckoutStep'
 import { PaymentStep } from '../constants'
+import MercadoPagoCreditCardForm from './MercadoPagoCreditCardForm.vue'
 
 const { isActive, isFilled, isAccessible } = useCheckoutStep(PaymentStep)
 </script>
@@ -14,5 +15,9 @@ const { isActive, isFilled, isAccessible } = useCheckoutStep(PaymentStep)
     :is-active
     :is-accessible
     :is-filled
-  />
+  >
+    <template v-if="isAccessible">
+      <MercadoPagoCreditCardForm />
+    </template>
+  </Step>
 </template>

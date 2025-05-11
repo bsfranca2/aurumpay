@@ -38,3 +38,11 @@ export interface ExistingAddress extends Address {
 export type ShippingAddress = (Address | ExistingAddress) & {
   recipient: string
 }
+
+export interface CreditCardPayment {
+  token: string
+  cardholderName: string
+  identificationNumber: string
+  identificationType: string
+  installments: number
+}

@@ -33,7 +33,7 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <form class="space-y-4" @submit="onSubmit">
+  <form class="form" @submit="onSubmit">
     <FormField v-slot="{ componentField }" name="fullName">
       <FormItem>
         <FormLabel>{{ $t('fullName') }}</FormLabel>

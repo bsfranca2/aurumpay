@@ -25,12 +25,23 @@ internal sealed class GetCheckoutSessionQueryHandler(
         }
 
         CheckoutSessionId sessionId = maybeSessionId.Value;
+
         CheckoutSessionDto? session = await dbContext
             .CheckoutSessions
             .Where(cs => cs.Id == sessionId)
             .Select(cs => new CheckoutSessionDto(
                 cs.CartItems.Select(ci => new CartItemDto(
-                    ci.ProductId.Value,
+                    new CartItemProductDto(
+                        ci.ProductId.Value,
+                        dbContext.Products
+                            .Where(p => p.Id == ci.ProductId)
+                            .Select(p => p.Name)
+                            .First(),
+                        dbContext.Products
+                            .Where(p => p.Id == ci.ProductId)
+                            .Select(p => p.Price)
+                            .First()
+                    ),
                     ci.Quantity
                 )),
                 cs.CustomerId != null

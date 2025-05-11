@@ -25,5 +25,59 @@
   "fieldRequired": "Campo obrigatório",
   "fieldInvalid": "Campo inválido",
   "addressLine2": "Complemento",
-  "recipient": "Destinatário"
+  "recipient": "Destinatário",
+  "validation": {
+    "required_field": "Este campo é obrigatório.",
+    "invalid_format": "Formato inválido.",
+    "invalid_length": "Comprimento inválido.",
+    "cardholderName": {
+      "minLength": "Nome deve ter pelo menos 3 caracteres",
+      "maxLength": "Nome deve ter no máximo 80 caracteres",
+      "invalidFormat": "Nome deve conter apenas letras e espaços"
+    },
+    "identificationType": {
+      "invalid": "Tipo de documento inválido"
+    },
+    "identificationNumber": {
+      "invalid": "Documento inválido"
+    },
+    "email": {
+      "invalid": "E-mail inválido",
+      "maxLength": "E-mail deve ter no máximo 100 caracteres"
+    },
+    "installments": {
+      "required": "Selecione o número de parcelas",
+      "integer": "Número de parcelas deve ser um número inteiro",
+      "minValue": "Mínimo de 1 parcela",
+      "maxValue": "Máximo de 24 parcelas"
+    },
+    "card": {
+      "number": {
+        "invalid_format": "O número do cartão deve conter apenas números.",
+        "invalid_length": "O número do cartão deve ter entre 9 e 18 dígitos.",
+        "luhn_validation_failed": "Número do cartão inválido.",
+        "required": "Número do cartão é obrigatório."
+      },
+      "security_code": {
+        "invalid_format": "O código de segurança deve conter apenas números.",
+        "invalid_length_3": "O código de segurança deve ter 3 dígitos.",
+        "invalid_length_4": "O código de segurança deve ter 4 dígitos.",
+        "required": "Código de segurança é obrigatório."
+      },
+      "expiration": {
+        "month": {
+          "invalid_format": "O mês de expiração deve ser um número.",
+          "invalid_range": "O mês deve estar entre 1 e 12.",
+          "required": "Mês de expiração é obrigatório."
+        },
+        "year": {
+          "invalid_format": "O ano de expiração deve ser um número.",
+          "invalid_length": "O ano deve ter 2 ou 4 dígitos.",
+          "required": "Ano de expiração é obrigatório."
+        },
+        "card_expired": "O cartão está expirado.",
+        "invalid_date": "Data de expiração inválida."
+      }
+    }
+  }
 }

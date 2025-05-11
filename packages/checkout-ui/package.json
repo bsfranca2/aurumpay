@@ -45,6 +45,7 @@
     "@aurumpay/lib": "workspace:*",
     "@nuxt/kit": "^3.16.2",
     "@nuxt/schema": "^3.16.2",
+    "@nuxt/scripts": "^0.11.6",
     "@nuxtjs/i18n": "^9.5.4",
     "@tailwindcss/vite": "^4.1.5",
     "@vee-validate/valibot": "^4.15.0",

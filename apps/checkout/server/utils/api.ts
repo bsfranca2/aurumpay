@@ -1,10 +1,10 @@
+import type { ProblemDetails } from '#shared/types/api'
 import type { H3Event } from 'h3'
 import type { Either } from 'result'
-import type { ProblemDetails } from '~/server/types/api'
+import { cartCookieName, cartHeaderName, checkoutSessionCookieName, checkoutSessionHeaderName } from '#shared/lib/cookies'
 import { decodeJwt } from 'jose'
 import { ofetch } from 'ofetch'
-import { cartCookieName, cartHeaderName, checkoutSessionCookieName, checkoutSessionHeaderName } from '~/lib/cookies'
-import { createApiErrorHandler, createApiSdk } from '~/server/lib/api'
+import { createApiErrorHandler, createApiSdk } from '../lib/api'
 
 export function getApiSdk(event: H3Event) {
   const { apiUrl, checkoutSessionExpiration, cartMaxAge } = useRuntimeConfig()

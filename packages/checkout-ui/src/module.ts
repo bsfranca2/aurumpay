@@ -48,6 +48,8 @@ export default defineNuxtModule<ModuleOptions>({
 
     await registerModule('@nuxtjs/i18n', 'i18n', {})
 
+    await registerModule('@nuxt/scripts', 'scripts', {})
+
     addPlugin({ src: resolve('./runtime/plugins/theme') })
 
     addComponentsDir({

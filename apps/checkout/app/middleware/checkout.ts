@@ -1,5 +1,5 @@
+import { cartCookieName, checkoutSessionCookieName } from '#shared/lib/cookies'
 import { useHost } from '~/composables/useHost.server'
-import { cartCookieName, checkoutSessionCookieName } from '~/lib/cookies'
 
 export default defineNuxtRouteMiddleware(() => {
   if (import.meta.browser) {

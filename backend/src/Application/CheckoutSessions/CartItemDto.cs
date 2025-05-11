@@ -1,6 +1,6 @@
 namespace AurumPay.Application.CheckoutSessions;
 
 public record CartItemDto(
-    long ProductId,
+    CartItemProductDto Product,
     int Quantity
 );

@@ -1,5 +1,6 @@
+import type { CartItem } from '@aurumpay/api-types/checkout'
 import type { CustomerAddress, CustomerInfo, ExistingAddress } from '../../types'
-import { computed } from 'vue'
+import { computed, readonly } from 'vue'
 import { CustomerStep, ShippingStep } from '../constants'
 import { useCheckoutState } from './useCheckoutState'
 import { useCheckoutStepper } from './useCheckoutStepper'
@@ -12,6 +13,10 @@ export function useCheckout() {
 
   const hasAddress = computed(() => !!checkout.value.addresses.length)
   const mainAddress = computed(() => checkout.value.addresses.find(address => address.isMain))
+
+  const total = computed(() => {
+    return checkout.value.cartItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0)
+  })
 
   function submitCustomerInfo(customerInfo: CustomerInfo) {
     checkout.value.customerInfo = customerInfo
@@ -37,16 +42,22 @@ export function useCheckout() {
     stepper.goToNext()
   }
 
+  function setCartItems(cartItems: CartItem[]) {
+    checkout.value.cartItems = cartItems
+  }
+
   const getters = {
     ...checkout.value,
     hasAddress,
     mainAddress,
+    total: readonly(total),
   }
 
   const actions = {
     submitCustomerInfo,
     saveAddress,
     submitShippingAddress,
+    setCartItems,
   }
 
   return { ...getters, ...actions }

@@ -1,6 +1,26 @@
 import type { TranslateFn } from './types'
 import { validateCPF, validateFullName } from '@aurumpay/lib/checkout'
-import { custom, length, maxLength, minLength, object, optional, pipe, rfcEmail, string, transform } from 'valibot'
+import {
+  check,
+  custom,
+  email,
+  forward,
+  integer,
+  length,
+  maxLength,
+  maxValue,
+  minLength,
+  minValue,
+  object,
+  optional,
+  partialCheck,
+  picklist,
+  pipe,
+  rfcEmail,
+  string,
+  transform,
+  trim,
+} from 'valibot'
 
 export function createCustomerSchema(t: TranslateFn) {
   return object({
@@ -67,4 +87,66 @@ export function createAddressSchema(t: TranslateFn) {
       custom(validateFullName, t('fullNameError')),
     ),
   })
+}
+
+export function createPaymentSchema(t: (key: string) => string) {
+  return pipe(
+    object({
+      cardholderName: pipe(
+        string(t('requiredError')),
+        transform(s => s.trim()),
+        // custom(validateFullName, t('fullNameError')),
+      ),
+
+      identificationType: pipe(
+        string(),
+        picklist(['CPF', 'CNPJ'], t('validation.identificationType.invalid')),
+      ),
+
+      identificationNumber: pipe(
+        string(),
+        trim(),
+        transform(input => input.replace(/\D/g, '')),
+      ),
+
+      installments: pipe(
+        string(),
+        minLength(1, t('validation.installments.required')),
+        transform(Number),
+        integer(t('validation.installments.integer')),
+        minValue(1, t('validation.installments.minValue')),
+        maxValue(24, t('validation.installments.maxValue')),
+      ),
+
+      mpCardNumber: pipe(
+        string(),
+        custom(() => true, t('requiredError')),
+      ),
+      mpExpirationDate: pipe(
+        string(),
+        custom(() => true, t('requiredError')),
+      ),
+      mpSecurityCode: pipe(
+        string(),
+        custom(() => true, t('requiredError')),
+      ),
+    }),
+    forward(
+      partialCheck(
+        [['identificationType'], ['identificationNumber']],
+        (input) => {
+          if (input.identificationType === 'CPF') {
+            return validateCPF(input.identificationNumber)
+          }
+          else if (input.identificationType === 'CNPJ') {
+          // return validateCNPJ(input.identificationNumber)
+            return false
+          }
+          return false
+        },
+        t('validation.identificationNumber.invalid'),
+      ),
+      ['identificationNumber'],
+    ),
+  )
 }
