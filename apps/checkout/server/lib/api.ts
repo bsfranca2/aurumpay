@@ -4,8 +4,12 @@ import type {
   CreateCheckout,
   CustomerAddress,
   IdentifyCustomer,
+  Order,
+  ProcessOrderPaymentRequest,
+  SelectPaymentMethod,
 } from '@aurumpay/api-types/checkout'
-import type { $Fetch, FetchOptions } from 'ofetch'
+import type { AxiosInstance, AxiosResponse } from 'axios'
+import type { FetchOptions } from 'ofetch'
 import type { Either } from 'result'
 import { left, right } from 'result'
 
@@ -24,18 +28,41 @@ export function createApiSdk(api: ApiFn) {
       summary: () => api<CheckoutSession>('/checkout/summary', { method: 'get' }),
       identifyCustomer: (data: IdentifyCustomer) => api('/checkout/customer', { method: 'put', body: data }),
       addAddress: (data: CustomerAddress) => api<CustomerAddress>('/checkout/customer/addresses', { method: 'post', body: data }),
+      paymentMethod: (data: SelectPaymentMethod) => api('/checkout/payment-method', { method: 'put', body: data }),
+      finalize: () => api<Order>('/checkout/finalize', { method: 'post' }),
+    },
+
+    orders: {
+      payment: (id: number, data: ProcessOrderPaymentRequest) => api(`/orders/${id}/payment`, { method: 'post', body: data }),
     },
   }
 }
 
-export function createApiErrorHandler(api: $Fetch) {
+export function createApiErrorHandler(api: AxiosInstance) {
   async function apiWithErrorHandler<Left, Right>(url: string, options: FetchOptions): Promise<Either<Left, Right>> {
     try {
-      const response = await api<Right>(url, options as any)
-      return right(response)
+      const method = (options.method || 'GET').toUpperCase()
+      const axiosConfig = {
+        params: options.query,
+      }
+
+      let response: AxiosResponse<Right>
+
+      if (method === 'POST') {
+        response = await api.post(url, options.body, axiosConfig)
+      }
+      else if (method === 'PUT') {
+        response = await api.put(url, options.body, axiosConfig)
+      }
+      else {
+        response = await api.get(url, axiosConfig)
+      }
+
+      return right(response.data)
     }
     catch (err: any) {
-      return left(err.data || err.message || err)
+      console.error('API Error:', err.response?.data || err.message)
+      return left(err.response?.data || err.message || err)
     }
   }
   return apiWithErrorHandler

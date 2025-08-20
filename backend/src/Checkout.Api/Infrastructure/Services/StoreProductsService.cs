@@ -10,7 +10,8 @@ namespace AurumPay.Checkout.Api.Infrastructure.Services;
 public class StoreProductService(
     ILogger<StoreProductService> logger,
     DatabaseContext dbContext,
-    IStoreContext storeContext) : IStoreProductService
+    IStoreContext storeContext
+) : IStoreProductService
 {
     public async Task<Dictionary<string, ProductId>?> MapPublicIdsToProductIdsAsync(
         HashSet<string> publicIds,

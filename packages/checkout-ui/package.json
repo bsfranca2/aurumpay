@@ -43,24 +43,24 @@
   "dependencies": {
     "@aurumpay/api-types": "workspace:*",
     "@aurumpay/lib": "workspace:*",
-    "@nuxt/kit": "^3.16.2",
-    "@nuxt/schema": "^3.16.2",
-    "@nuxt/scripts": "^0.11.6",
-    "@nuxtjs/i18n": "^9.5.4",
-    "@tailwindcss/vite": "^4.1.5",
-    "@vee-validate/valibot": "^4.15.0",
-    "@vueuse/core": "^13.1.0",
+    "@nuxt/kit": "^3.18.1",
+    "@nuxt/schema": "^3.18.1",
+    "@nuxt/scripts": "^0.11.10",
+    "@nuxtjs/i18n": "^9.5.6",
+    "@tailwindcss/vite": "^4.1.12",
+    "@vee-validate/valibot": "^4.15.1",
+    "@vueuse/core": "^13.7.0",
     "defu": "^6.1.4",
-    "lucide-vue-next": "^0.508.0",
-    "reka-ui": "^2.2.0",
+    "lucide-vue-next": "^0.540.0",
+    "reka-ui": "^2.4.1",
     "result": "workspace:*",
-    "tailwindcss": "^4.1.5",
-    "valibot": "^1.0.0",
-    "vee-validate": "^4.15.0"
+    "tailwindcss": "^4.1.12",
+    "valibot": "^1.1.0",
+    "vee-validate": "^4.15.1"
   },
   "devDependencies": {
-    "@nuxt/module-builder": "^1.0.1",
-    "nuxt": "^3.16.2",
-    "vue-tsc": "^2.2.10"
+    "@nuxt/module-builder": "^1.0.2",
+    "nuxt": "^3.18.1",
+    "vue-tsc": "^2.2.12"
   }
 }

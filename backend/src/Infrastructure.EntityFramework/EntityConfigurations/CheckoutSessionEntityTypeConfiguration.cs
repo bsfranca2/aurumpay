@@ -31,10 +31,7 @@ public class CheckoutSessionEntityTypeConfiguration : IEntityTypeConfiguration<C
         checkoutSessionConfiguration.Property(cs => cs.DeviceFingerprint)
             .HasColumnType("text");
 
-        // TODO: Improve
-        checkoutSessionConfiguration.Property(cs => cs.Status)
-            .HasConversion<string>()
-            .HasMaxLength(30);
+        checkoutSessionConfiguration.Property(cs => cs.Status);
 
         checkoutSessionConfiguration.OwnsMany(cs => cs.CartItems, cartItemBuilder =>
         {
@@ -73,5 +70,19 @@ public class CheckoutSessionEntityTypeConfiguration : IEntityTypeConfiguration<C
             .HasOne<Customer>()
             .WithMany()
             .HasForeignKey(cs => cs.CustomerId);
+
+        checkoutSessionConfiguration
+            .Property(cs => cs.SelectedPaymentMethodId)
+            .HasConversion(new PaymentMethodIdConverter())
+            .IsRequired(false);
+        
+        checkoutSessionConfiguration
+            .Property(cs => cs.SelectedPaymentGatewayId)
+            .HasConversion(new PaymentGatewayIdConverter())
+            .IsRequired(false);
+
+        checkoutSessionConfiguration
+            .Property(cs => cs.OrderId)
+            .HasConversion(new OrderIdConverter());
     }
 }

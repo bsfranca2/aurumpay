@@ -4,7 +4,7 @@ using AurumPay.Application.CheckoutSessions.Create;
 using AurumPay.Domain.Catalog;
 using AurumPay.Domain.CheckoutSessions;
 using AurumPay.Domain.Interfaces;
-using AurumPay.Domain.Services;
+using AurumPay.Domain.Shared;
 using AurumPay.Domain.Stores;
 
 namespace AurumPay.Application.UnitTest.CheckoutSessions;

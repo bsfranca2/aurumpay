@@ -33,7 +33,7 @@ internal sealed class CreateCheckoutSessionCommandHandler(
 
         if (cartItems.Count == 0)
         {
-            return Result.Invalid(new ValidationError("Cart is empty or contains only invalid items for this store."));
+            return Result.Error("Cart is empty or contains only invalid items for this store.");
         }
         
         // TODO: Validate if products are available and quantity.
@@ -63,7 +63,7 @@ internal sealed class CreateCheckoutSessionCommandHandler(
 
         if (productMappings == null || productMappings.Count == 0)
         {
-            return Result.Invalid(new ValidationError("No valid products found for the provided items."));
+            return Result.Error("No valid products found for the provided items.");
         }
 
         return Result.Success(productMappings

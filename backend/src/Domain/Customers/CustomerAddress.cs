@@ -7,7 +7,7 @@ namespace AurumPay.Domain.Customers;
 
 public class CustomerAddress : IEntity<CustomerAddressId>
 {
-    public CustomerAddressId Id { get; init; }
+    public CustomerAddressId Id { get; }
     public Cep Cep { get; private set; }
     public string AddressLine1 { get; private set; }
     public string AddressLine2 { get; private set; }
@@ -43,5 +43,3 @@ public class CustomerAddress : IEntity<CustomerAddressId>
         IsMain = false;
     }
 }
-
-public readonly record struct CustomerAddressId(long Value);

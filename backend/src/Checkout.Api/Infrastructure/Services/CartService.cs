@@ -29,7 +29,7 @@ public class CartService(
         string? cartId = GetCartId();
         if (string.IsNullOrEmpty(cartId))
         {
-            return Result.Invalid(new ValidationError("No active cart found."));
+            return Result.Error("No active cart found.");
         }
 
         string cacheKey = GenerateCacheKey(storeContext.GetCurrentStoreId(), cartId);
@@ -42,7 +42,7 @@ public class CartService(
 
         if (lastCartItems.Count == 0)
         {
-            return Result.Invalid(new ValidationError("No active cart found or previous cart is empty."));
+            return Result.Error("No active cart found or previous cart is empty.");
         }
 
         return lastCartItems;

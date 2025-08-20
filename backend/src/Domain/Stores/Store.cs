@@ -5,7 +5,7 @@ namespace AurumPay.Domain.Stores;
 
 public sealed class Store : IEntity<StoreId>
 {
-    public StoreId Id { get; set; }
+    public StoreId Id { get; }
     public MerchantId MerchantId { get; }
     public string Name { get; }
 
@@ -16,5 +16,3 @@ public sealed class Store : IEntity<StoreId>
         Name = name;
     }
 }
-
-public readonly record struct StoreId(int Value);

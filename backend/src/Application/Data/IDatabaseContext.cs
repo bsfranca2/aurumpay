@@ -1,3 +1,4 @@
+using AurumPay.Domain.Catalog;
 using AurumPay.Domain.CheckoutSessions;
 using AurumPay.Domain.Customers;
 
@@ -9,4 +10,5 @@ public interface IDatabaseContext
 {
     DbSet<CheckoutSession> CheckoutSessions { get; }
     DbSet<Customer> Customers { get; }
+    DbSet<Product> Products { get; }
 }

@@ -22,13 +22,13 @@ internal sealed class UpdateCheckoutSessionCustomerAddressCommandHandler(
         CheckoutSession? session = await checkoutContext.SessionManager.GetCurrentSessionAsync();
         if (session is null)
         {
-            return Result.Invalid();
+            return Result.Error("No active checkout session found");
         }
 
         CustomerId? customerId = session.CustomerId;
         if (customerId is null)
         {
-            return Result.Invalid();
+            return Result.Error("Customer not identified");
         }
 
         UpdateCustomerAddressCommand updateAddress = new(customerId.Value.Value, request.AddressId, request.Cep,

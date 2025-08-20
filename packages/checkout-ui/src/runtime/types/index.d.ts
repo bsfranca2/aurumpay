@@ -41,6 +41,7 @@ export type ShippingAddress = (Address | ExistingAddress) & {
 
 export interface CreditCardPayment {
   token: string
+  paymentMethodId: string
   cardholderName: string
   identificationNumber: string
   identificationType: string

@@ -14,20 +14,21 @@
     "@aurumpay/api-types": "workspace:*",
     "@aurumpay/checkout-ui": "workspace:*",
     "@aurumpay/vue-the-mask": "workspace:*",
-    "@vee-validate/valibot": "^4.15.0",
-    "@vueuse/core": "^13.1.0",
+    "@vee-validate/valibot": "^4.15.1",
+    "@vueuse/core": "^13.7.0",
+    "axios": "^1.11.0",
     "cep-promise": "^4.4.1",
     "class-variance-authority": "^0.7.1",
-    "jose": "^6.0.10",
-    "lucide-vue-next": "^0.503.0",
-    "nuxt": "^4.0.1",
-    "reka-ui": "^2.2.0",
+    "jose": "^6.0.12",
+    "lucide-vue-next": "^0.540.0",
+    "nuxt": "^4.0.3",
+    "reka-ui": "^2.4.1",
     "result": "workspace:*",
-    "valibot": "^1.0.0",
-    "vee-validate": "^4.15.0"
+    "valibot": "^1.1.0",
+    "vee-validate": "^4.15.1"
   },
   "devDependencies": {
-    "@nuxt/fonts": "^0.11.2",
+    "@nuxt/fonts": "^0.11.4",
     "@types/node": "^22.15.3"
   }
 }

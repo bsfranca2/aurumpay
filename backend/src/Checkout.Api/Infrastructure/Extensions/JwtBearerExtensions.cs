@@ -16,44 +16,11 @@ public static class JwtBearerExtensions
             options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
-                ValidateAudience = false,
+                ValidateAudience = true,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = "Checkout.Api"
-            };
-
-            options.Events = new JwtBearerEvents
-            {
-                OnTokenValidated = context =>
-                {
-                    Claim? audienceClaim =
-                        context.Principal?.Claims.FirstOrDefault(c => c.Type is JwtRegisteredClaimNames.Aud);
-
-                    if (audienceClaim == null)
-                    {
-                        context.Fail("No audience claim found");
-                        return Task.CompletedTask;
-                    }
-
-                    HttpContext httpContext = context.HttpContext;
-                    string requestScheme = httpContext.Request.Scheme;
-                    string? requestHost = httpContext.Request.Host.Value;
-
-                    if (string.IsNullOrWhiteSpace(requestScheme) || string.IsNullOrWhiteSpace(requestHost))
-                    {
-                        context.Fail("Invalid request scheme or host");
-                        return Task.CompletedTask;
-                    }
-
-                    string expectedAudience = $"{requestScheme}://{requestHost}";
-
-                    if (!audienceClaim.Value.Equals(expectedAudience, StringComparison.OrdinalIgnoreCase))
-                    {
-                        context.Fail("Invalid audience");
-                    }
-
-                    return Task.CompletedTask;
-                }
+                ValidIssuer = "https://api.aurumcheckout.com",
+                ValidAudiences = ["urn:aurumpay:api"]
             };
         });
     }

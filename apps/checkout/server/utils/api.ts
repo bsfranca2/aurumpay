@@ -2,24 +2,33 @@ import type { ProblemDetails } from '#shared/types/api'
 import type { H3Event } from 'h3'
 import type { Either } from 'result'
 import { cartCookieName, cartHeaderName, checkoutSessionCookieName, checkoutSessionHeaderName } from '#shared/lib/cookies'
+import axios from 'axios'
 import { decodeJwt } from 'jose'
-import { ofetch } from 'ofetch'
 import { createApiErrorHandler, createApiSdk } from '../lib/api'
 
 export function getApiSdk(event: H3Event) {
   const { apiUrl, checkoutSessionExpiration, cartMaxAge } = useRuntimeConfig()
   const cartCookie = getCookie(event, cartCookieName)
   const checkoutSessionCookie = getCookie(event, checkoutSessionCookieName)
-  const api = ofetch.create({
+
+  const proxyHeaders = getProxyRequestHeaders(event)
+  delete proxyHeaders['content-length']
+  delete proxyHeaders['Content-Length']
+  delete proxyHeaders['content-type']
+  delete proxyHeaders['Content-Type']
+
+  const api = axios.create({
     baseURL: apiUrl,
     headers: {
-      ...getProxyRequestHeaders(event),
+      ...proxyHeaders,
       ...(checkoutSessionCookie ? { [checkoutSessionHeaderName]: `Bearer ${checkoutSessionCookie}` } : {}),
       ...(cartCookie ? { [cartHeaderName]: cartCookie } : {}),
     },
-    onResponse({ response }) {
-      // TODO: Check if exists but empty
-      const bearerToken = response.headers.get(checkoutSessionHeaderName)
+  })
+
+  api.interceptors.response.use(
+    (response) => {
+      const bearerToken = response.headers[checkoutSessionHeaderName.toLowerCase()]
       if (bearerToken) {
         const token = bearerToken.split(' ')[1]
         try {
@@ -44,7 +53,7 @@ export function getApiSdk(event: H3Event) {
         }
       }
 
-      const cartId = response.headers.get(cartHeaderName)
+      const cartId = response.headers[cartHeaderName.toLowerCase()]
       if (cartId) {
         setCookie(event, cartCookieName, cartId, {
           httpOnly: true,
@@ -53,8 +62,15 @@ export function getApiSdk(event: H3Event) {
           maxAge: cartMaxAge,
         })
       }
+
+      return response
     },
-  })
+    (error) => {
+      console.error('Response Error:', error.response?.status, error.message)
+      throw error
+    },
+  )
+
   const apiWithErrorHandler = createApiErrorHandler(api)
   return createApiSdk(apiWithErrorHandler)
 }

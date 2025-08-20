@@ -5,7 +5,7 @@ namespace AurumPay.Domain.Merchants;
 
 public sealed class Merchant : IEntity<MerchantId>
 {
-    public MerchantId Id { get; set; }
+    public MerchantId Id { get; }
     public string Name { get; }
     public EmailAddress Email { get; }
 
@@ -16,5 +16,3 @@ public sealed class Merchant : IEntity<MerchantId>
         Email = email;
     }
 }
-
-public readonly record struct MerchantId(int Value);

@@ -22,13 +22,13 @@ internal sealed class AddCheckoutSessionCustomerAddressCommandHandler(
         CheckoutSession? session = await checkoutContext.SessionManager.GetCurrentSessionAsync();
         if (session is null)
         {
-            return Result.Invalid();
+            return Result.Error("Session not found");
         }
 
         CustomerId? customerId = session.CustomerId;
         if (customerId is null)
         {
-            return Result.Invalid();
+            return Result.Error("Customer not found");
         }
 
         AddCustomerAddressCommand addAddress = new(customerId.Value.Value, request.Cep, request.AddressLine1,

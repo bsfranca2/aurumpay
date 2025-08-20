@@ -8,9 +8,9 @@ public sealed class Customer : IEntity<CustomerId>
 {
     private readonly List<CustomerAddress> _addresses = [];
 
-    public CustomerId Id { get; init; }
+    public CustomerId Id { get; }
     public StoreId StoreId { get; }
-    public string FullName { get; set; }
+    public string FullName { get; }
     public EmailAddress Email { get; }
     public Cpf Cpf { get; }
     public Telephone PhoneNumber { get; }
@@ -97,5 +97,3 @@ public sealed class Customer : IEntity<CustomerId>
         address.SetAsMain();
     }
 }
-
-public readonly record struct CustomerId(long Value);

@@ -17,7 +17,7 @@ internal sealed class AddCustomerAddressCommandHandler(
 
         if (customer is null)
         {
-            return Result.Invalid(new ValidationError("Customer not found"));
+            return Result.Error("Customer not found");
         }
 
         CustomerAddress address = new(

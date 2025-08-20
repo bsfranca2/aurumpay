@@ -22,7 +22,7 @@ public class UpdateCheckoutSessionCustomerCommandHandler(
 
         if (checkoutSession is null)
         {
-            return Result.Invalid(new ValidationError("No active checkout session found"));
+            return Result.Error("No active checkout session found");
         }
 
         await unitOfWork.BeginTransactionAsync();
@@ -40,7 +40,7 @@ public class UpdateCheckoutSessionCustomerCommandHandler(
         checkoutSession.IdentifyCustomer(customer);
         await checkoutSessionRepository.UpdateAsync(checkoutSession);
 
-        await unitOfWork.CommitAsync();
+        await unitOfWork.CommitTransactionAsync();
 
         return Result.Success();
     }

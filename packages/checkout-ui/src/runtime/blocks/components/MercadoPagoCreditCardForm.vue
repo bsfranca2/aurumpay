@@ -78,13 +78,15 @@ const { values, isSubmitting, setFieldError, handleSubmit } = useForm({
 const onSubmit = handleSubmit(async (values) => {
   const tokenResult = await mercadoPago.createCardToken(values)
   const tokenId = tokenResult?.token?.id
+  const paymentMethodId = mercadoPago.currentPaymentMethod.value?.id
 
-  if (!tokenResult || !tokenResult.success || !tokenId) {
+  if (!tokenResult || !tokenResult.success || !tokenId || !paymentMethodId) {
     return
   }
 
   const response = await formHandler({
     token: tokenId,
+    paymentMethodId,
     cardholderName: values.cardholderName,
     identificationNumber: values.identificationNumber,
     identificationType: values.identificationType,

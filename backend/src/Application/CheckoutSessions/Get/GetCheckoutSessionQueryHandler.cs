@@ -21,7 +21,7 @@ internal sealed class GetCheckoutSessionQueryHandler(
         CheckoutSessionId? maybeSessionId = checkoutContext.SessionManager.GetCurrentSessionId();
         if (maybeSessionId == null)
         {
-            return Result.Invalid();
+            return Result.Error("Session not found");
         }
 
         CheckoutSessionId sessionId = maybeSessionId.Value;
@@ -30,6 +30,7 @@ internal sealed class GetCheckoutSessionQueryHandler(
             .CheckoutSessions
             .Where(cs => cs.Id == sessionId)
             .Select(cs => new CheckoutSessionDto(
+                cs.Status,
                 cs.CartItems.Select(ci => new CartItemDto(
                     new CartItemProductDto(
                         ci.ProductId.Value,
@@ -67,14 +68,16 @@ internal sealed class GetCheckoutSessionQueryHandler(
                             c.IsProspect
                         ))
                         .FirstOrDefault()
-                    : null
+                    : null,
+                cs.SelectedPaymentMethodId,
+                cs.SelectedPaymentGatewayId
             ))
             .SingleOrDefaultAsync(cancellationToken);
 
         if (session == null)
         {
             await checkoutContext.SessionManager.EndSessionAsync();
-            return Result.Invalid();
+            return Result.Error("Session not found");
         }
 
         return session;

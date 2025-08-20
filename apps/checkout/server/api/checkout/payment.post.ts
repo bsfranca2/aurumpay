@@ -1,10 +1,20 @@
 export default defineEventHandler(async (event) => {
   requireCheckoutSession(event)
 
-  // const apiSdk = getApiSdk(event)
+  const body = await readBody(event)
 
-  // const body = await readBody(event)
-  // const response = await apiSdk.checkout.payment(body)
-  // return mapResponse(response)
-  console.log('Payment processing is not implemented yet.')
+  const apiSdk = getApiSdk(event)
+
+  const paymentMethodResult = await apiSdk.checkout.paymentMethod({
+    paymentMethodType: 'CreditCard',
+  })
+  const _paymentMethod = mapResponse(paymentMethodResult)
+
+  const orderResult = await apiSdk.checkout.finalize()
+  const order = mapResponse(orderResult)
+
+  const paymentResult = await apiSdk.orders.payment(order.id, {
+    paymentData: body,
+  })
+  return mapResponse(paymentResult)
 })

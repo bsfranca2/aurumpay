@@ -14,7 +14,7 @@ internal sealed class RemoveCustomerAddressCommandHandler(ICustomerRepository cu
 
         if (customer is null)
         {
-            return Result.Invalid(new ValidationError("Customer not found"));
+            return Result.Error("Customer not found");
         }
 
         customer.RemoveAddress(new CustomerAddressId(request.AddressId));

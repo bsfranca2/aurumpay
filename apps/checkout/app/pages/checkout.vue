@@ -84,10 +84,11 @@ async function handleSelectAddress() {
 
 async function handleCreditCard(data: CreditCardPayment) {
   try {
-    await $fetch('/api/checkout/payment', {
+    const response = await $fetch('/api/checkout/payment', {
       method: 'POST',
       body: data,
     })
+    console.log('Payment response:', response)
   }
   catch (error) {
     return error.data.data

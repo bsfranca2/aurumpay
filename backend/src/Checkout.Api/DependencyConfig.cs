@@ -4,9 +4,12 @@ using AurumPay.Checkout.Api.Infrastructure.Extensions;
 using AurumPay.Checkout.Api.Infrastructure.Options;
 using AurumPay.Checkout.Api.Infrastructure.Services;
 using AurumPay.Domain.Interfaces;
+using AurumPay.Domain.Payments.Configuration;
 using AurumPay.Domain.Stores;
 using AurumPay.Infrastructure.EntityFramework;
 using AurumPay.Infrastructure.EntityFramework.Repositories;
+using AurumPay.Infrastructure.PaymentGateways.MercadoPago;
+using AurumPay.Infrastructure.Services;
 
 using FluentValidation;
 
@@ -40,6 +43,8 @@ public static class DependencyConfig
         services.AddHttpContextAccessor();
 
         services.AddForwardedHeadersConfig(environment, configuration);
+        
+        services.ConfigureOptions<JwtOptionsSetup>();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearerConfig();
         services.AddAuthorization();
@@ -55,6 +60,8 @@ public static class DependencyConfig
         services.AddScoped<IStoreProductService, StoreProductService>();
         services.AddScoped<IStoreProductValidator, StoreProductValidator>();
 
+        services.AddPaymentServices(configuration);
+
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssemblies(typeof(ApplicationAssemblyReference).Assembly);
@@ -62,6 +69,16 @@ public static class DependencyConfig
         services.AddMediatRLoggingBehavior();
         services.AddMediatRFluentValidationBehavior();
         services.AddValidatorsFromAssembly(typeof(ApplicationAssemblyReference).Assembly);
+
+        return services;
+    }
+    
+    private static IServiceCollection AddPaymentServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddScoped<IPaymentProcessingService, PaymentProcessingService>();
+        services.AddScoped<IStorePaymentConfigurationService, StorePaymentConfigurationService>();
+        
+        services.AddScoped<IPaymentGatewayService, MercadoPagoGatewayService>();
 
         return services;
     }

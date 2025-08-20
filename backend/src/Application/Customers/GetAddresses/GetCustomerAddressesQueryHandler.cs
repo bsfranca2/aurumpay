@@ -20,7 +20,7 @@ internal sealed class GetCustomerAddressesQueryHandler(IDatabaseContext context)
 
         if (!customerExists)
         {
-            return Result.Invalid(new ValidationError("Customer not found"));
+            return Result.Error("Customer not found");
         }
 
         List<CustomerAddressDto> customerAddresses = await context

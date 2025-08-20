@@ -9,7 +9,7 @@ indent_style = space
 indent_size = 2
 
 # Xml files
-[*.xml]
+[*.{xml,slnx,csproj}]
 indent_size = 2
 
 # C# files
@@ -379,3 +379,6 @@ dotnet_naming_style.s_camelcase.required_prefix = s_
 dotnet_naming_style.s_camelcase.required_suffix =
 dotnet_naming_style.s_camelcase.word_separator =
 dotnet_naming_style.s_camelcase.capitalization = camel_case
+
+[**/Migrations/*.cs]
+dotnet_diagnostic.CA1861.severity = none

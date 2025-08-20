@@ -3,12 +3,24 @@
 export interface API {
   AddCustomerAddress?: AddCustomerAddress
   CartItem?: CartItem
+  CartItemProduct?: CartItemProduct
   CheckoutSession?: CheckoutSession
+  CheckoutStatus?: number
   CreateCheckout?: CreateCheckout
   Customer?: Customer
   CustomerAddress?: CustomerAddress
   HttpValidationProblemDetails?: HttpValidationProblemDetails
   IdentifyCustomer?: IdentifyCustomer
+  NullableOfPaymentGatewayId?: NullableOfPaymentGatewayId
+  NullableOfPaymentMethodId?: NullableOfPaymentMethodId
+  Order?: Order
+  OrderItem?: OrderItem
+  OrderPayment?: OrderPayment
+  OrderPaymentStatus?: number
+  OrderStatus?: number
+  PaymentStatus?: number
+  ProcessOrderPaymentRequest?: ProcessOrderPaymentRequest
+  SelectPaymentMethod?: SelectPaymentMethod
 }
 
 export interface AddCustomerAddress {
@@ -23,17 +35,22 @@ export interface AddCustomerAddress {
 }
 
 export interface CartItem {
-  product: {
-    id: number
-    name: string
-    price: number
-  }
+  product: CartItemProduct
   quantity: number
+}
+
+export interface CartItemProduct {
+  id: number
+  name: string
+  price: number
 }
 
 export interface CheckoutSession {
   cartItems: CartItem[]
   customer?: Customer
+  paymentGatewayId?: NullableOfPaymentGatewayId
+  paymentMethodId?: NullableOfPaymentMethodId
+  status: number
 }
 
 export interface Customer {
@@ -58,6 +75,14 @@ export interface CustomerAddress {
   state: string
 }
 
+export interface NullableOfPaymentGatewayId {
+  value?: number
+}
+
+export interface NullableOfPaymentMethodId {
+  value?: number
+}
+
 export interface CreateCheckout {
   cartItems: { [key: string]: number }
 }
@@ -76,4 +101,41 @@ export interface IdentifyCustomer {
   email: string
   fullName: string
   phoneNumber: string
+}
+
+export interface Order {
+  createdAt: Date
+  customerId: number
+  id: number
+  items: OrderItem[]
+  orderTotal: number
+  paymentStatus: number
+  status: number
+  storeId: number
+}
+
+export interface OrderItem {
+  productId: number
+  productName: string
+  quantity: number
+  totalPrice: number
+  unitPrice: number
+}
+
+export interface OrderPayment {
+  amount: number
+  orderId: number
+  orderPaymentStatus: number
+  orderStatus: number
+  paymentId: string
+  paymentInstructions: string
+  paymentStatus: number
+}
+
+export interface ProcessOrderPaymentRequest {
+  paymentData: { [key: string]: any }
+}
+
+export interface SelectPaymentMethod {
+  paymentMethodType?: string
 }

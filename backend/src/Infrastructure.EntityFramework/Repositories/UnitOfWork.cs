@@ -1,6 +1,7 @@
 using System.Data;
 
 using AurumPay.Application.SeedWork;
+using AurumPay.Domain.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -12,6 +13,8 @@ public sealed class UnitOfWork(DatabaseContext context) : IUnitOfWork
     private IDbContextTransaction? _transaction;
     private bool _disposed;
     private bool _transactionFinished;
+    
+    public bool HasActiveTransaction => _transaction != null;
 
     public async Task BeginTransactionAsync(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
     {
@@ -23,7 +26,7 @@ public sealed class UnitOfWork(DatabaseContext context) : IUnitOfWork
         _transaction = await context.Database.BeginTransactionAsync(isolationLevel);
     }
 
-    public async Task CommitAsync()
+    public async Task CommitTransactionAsync()
     {
         if (_transaction == null || _disposed || _transactionFinished)
         {
@@ -39,12 +42,12 @@ public sealed class UnitOfWork(DatabaseContext context) : IUnitOfWork
         }
         catch
         {
-            await RollbackAsync();
+            await RollbackTransactionAsync();
             throw;
         }
     }
 
-    public async Task RollbackAsync()
+    public async Task RollbackTransactionAsync()
     {
         if (_transaction == null || _disposed || _transactionFinished)
         {

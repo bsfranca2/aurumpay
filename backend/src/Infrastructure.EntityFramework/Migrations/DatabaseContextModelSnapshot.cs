@@ -68,10 +68,17 @@ namespace AurumPay.Infrastructure.EntityFramework.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
+                    b.Property<long?>("OrderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("SelectedPaymentGatewayId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("SelectedPaymentMethodId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<long>("StoreId")
                         .HasColumnType("bigint");
@@ -215,6 +222,213 @@ namespace AurumPay.Infrastructure.EntityFramework.Migrations
                     b.ToTable("Merchants", (string)null);
                 });
 
+            modelBuilder.Entity("AurumPay.Domain.Orders.Order", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<long>("Id"), 1000L, null, null, null, null, null);
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("CustomerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("OrderTotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PaidAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("PaidDateUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("PaymentStatus")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<long>("StoreId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("Orders", (string)null);
+                });
+
+            modelBuilder.Entity("AurumPay.Domain.Payments.Configuration.StorePaymentConfiguration", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<long>("Id"), 1000L, null, null, null, null, null);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<long>("PaymentGatewayId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("PaymentMethodId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("StoreId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentGatewayId");
+
+                    b.HasIndex("PaymentMethodId");
+
+                    b.HasIndex("StoreId");
+
+                    b.HasIndex("StoreId", "PaymentMethodId");
+
+                    b.HasIndex("StoreId", "PaymentMethodId", "PaymentGatewayId")
+                        .IsUnique();
+
+                    b.ToTable("StorePaymentConfigurations", (string)null);
+                });
+
+            modelBuilder.Entity("AurumPay.Domain.Payments.Gateways.PaymentGateway", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<long>("Id"), 1000L, null, null, null, null, null);
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("Type");
+
+                    b.ToTable("PaymentGateways", (string)null);
+                });
+
+            modelBuilder.Entity("AurumPay.Domain.Payments.Methods.PaymentMethod", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<long>("Id"), 1000L, null, null, null, null, null);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Type");
+
+                    b.HasIndex("Name", "Type")
+                        .IsUnique();
+
+                    b.ToTable("PaymentMethods", (string)null);
+                });
+
+            modelBuilder.Entity("AurumPay.Domain.Payments.Transactions.Payment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("numeric(12,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("CustomerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("FailureReason")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<string>("GatewayResponse")
+                        .HasColumnType("text");
+
+                    b.Property<string>("GatewayTransactionId")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<long>("OrderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("PaymentGatewayId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("PaymentMethodId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("ProcessedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("GatewayTransactionId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("PaymentGatewayId");
+
+                    b.HasIndex("PaymentMethodId");
+
+                    b.HasIndex("Status");
+
+                    b.ToTable("Payments", (string)null);
+                });
+
             modelBuilder.Entity("AurumPay.Domain.Stores.Store", b =>
                 {
                     b.Property<long>("Id")
@@ -315,6 +529,152 @@ namespace AurumPay.Infrastructure.EntityFramework.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AurumPay.Domain.Orders.Order", b =>
+                {
+                    b.HasOne("AurumPay.Domain.Customers.Customer", null)
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AurumPay.Domain.Stores.Store", null)
+                        .WithMany()
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsMany("AurumPay.Domain.Orders.OrderItem", "OrderItems", b1 =>
+                        {
+                            b1.Property<long>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bigint");
+
+                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<long>("Id"));
+                            NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b1.Property<long>("Id"), 1000L, null, null, null, null, null);
+
+                            b1.Property<DateTime>("CreatedOnUtc")
+                                .HasColumnType("timestamp with time zone");
+
+                            b1.Property<long>("OrderId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<long>("ProductId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bigint");
+
+                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<long>("ProductId"));
+                            NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b1.Property<long>("ProductId"), 1000L, null, null, null, null, null);
+
+                            b1.Property<string>("ProductName")
+                                .IsRequired()
+                                .HasMaxLength(255)
+                                .HasColumnType("character varying(255)");
+
+                            b1.Property<int>("Quantity")
+                                .HasColumnType("integer");
+
+                            b1.Property<decimal>("UnitPrice")
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("OrderId");
+
+                            b1.ToTable("OrderItems", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderId");
+                        });
+
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("AurumPay.Domain.Payments.Configuration.StorePaymentConfiguration", b =>
+                {
+                    b.HasOne("AurumPay.Domain.Payments.Gateways.PaymentGateway", null)
+                        .WithMany()
+                        .HasForeignKey("PaymentGatewayId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AurumPay.Domain.Payments.Methods.PaymentMethod", null)
+                        .WithMany()
+                        .HasForeignKey("PaymentMethodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AurumPay.Domain.Stores.Store", null)
+                        .WithMany()
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("AurumPay.Domain.Payments.Gateways.PaymentGatewayCredentials", "Credentials", b1 =>
+                        {
+                            b1.Property<long>("StorePaymentConfigurationId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("AdditionalSettings")
+                                .IsRequired()
+                                .HasColumnType("jsonb")
+                                .HasColumnName("AdditionalSettings");
+
+                            b1.Property<string>("PrivateKey")
+                                .IsRequired()
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("PrivateKey");
+
+                            b1.Property<string>("PublicKey")
+                                .IsRequired()
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("PublicKey");
+
+                            b1.Property<string>("WebhookSecret")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("WebhookSecret");
+
+                            b1.HasKey("StorePaymentConfigurationId");
+
+                            b1.ToTable("StorePaymentConfigurations");
+
+                            b1.WithOwner()
+                                .HasForeignKey("StorePaymentConfigurationId");
+                        });
+
+                    b.Navigation("Credentials")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AurumPay.Domain.Payments.Transactions.Payment", b =>
+                {
+                    b.HasOne("AurumPay.Domain.Customers.Customer", null)
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.HasOne("AurumPay.Domain.Orders.Order", null)
+                        .WithMany("Payments")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AurumPay.Domain.Payments.Gateways.PaymentGateway", null)
+                        .WithMany()
+                        .HasForeignKey("PaymentGatewayId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AurumPay.Domain.Payments.Methods.PaymentMethod", null)
+                        .WithMany()
+                        .HasForeignKey("PaymentMethodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AurumPay.Domain.Stores.Store", b =>
                 {
                     b.HasOne("AurumPay.Domain.Merchants.Merchant", null)
@@ -327,6 +687,11 @@ namespace AurumPay.Infrastructure.EntityFramework.Migrations
             modelBuilder.Entity("AurumPay.Domain.Customers.Customer", b =>
                 {
                     b.Navigation("Addresses");
+                });
+
+            modelBuilder.Entity("AurumPay.Domain.Orders.Order", b =>
+                {
+                    b.Navigation("Payments");
                 });
 #pragma warning restore 612, 618
         }

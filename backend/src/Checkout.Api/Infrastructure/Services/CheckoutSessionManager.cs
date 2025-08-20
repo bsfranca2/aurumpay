@@ -1,9 +1,12 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
+using AurumPay.Checkout.Api.Infrastructure.Options;
 using AurumPay.Domain.CheckoutSessions;
+using AurumPay.Domain.Customers;
 using AurumPay.Domain.Interfaces;
 
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 using NetDevPack.Security.Jwt.Core.Interfaces;
@@ -15,11 +18,15 @@ namespace AurumPay.Checkout.Api.Infrastructure.Services;
 public class CheckoutSessionManager(
     IHttpContextAccessor httpContextAccessor,
     ICheckoutSessionRepository checkoutSessionRepository,
-    IJwtService jwtService
+    IJwtService jwtService,
+    ICustomerRepository customerRepository,
+    IOptions<JwtOptions> jwtOptions
 ) : ICheckoutSessionManager
 {
     private const string CheckoutSessionHeaderKey = "Authorization";
-    
+    private CheckoutSession? _currentSessionCached;
+    private Customer? _currentCustomerCached;
+
     public CheckoutSessionId? GetCurrentSessionId()
     {
         Claim? claim = httpContextAccessor.HttpContext?.User.Claims
@@ -44,26 +51,45 @@ public class CheckoutSessionManager(
             return null;
         }
 
-        return await checkoutSessionRepository.GetByIdAsync(sessionId.Value);
+        _currentSessionCached ??= await checkoutSessionRepository.GetByIdAsync(sessionId.Value);
+
+        return _currentSessionCached;
+    }
+
+    public async Task<Customer?> GetCurrentCustomerAsync()
+    {
+        CheckoutSession? session = await GetCurrentSessionAsync();
+
+        if (session?.CustomerId == null)
+        {
+            return null;
+        }
+
+        _currentCustomerCached ??= await customerRepository.GetByIdWithAddressesAsync(session.CustomerId.Value);
+
+        return _currentCustomerCached;
     }
 
     public async Task EstablishSessionAsync(CheckoutSession checkoutSession)
     {
         HttpContext context = httpContextAccessor.HttpContext!;
-        string requestScheme = context.Request.Scheme;
-        string? requestHost = context.Request.Host.Value;
-
-        JwtSecurityTokenHandler tokenHandler = new();
+        
+        string issuer = jwtOptions.Value.Issuer;
+        string audience = jwtOptions.Value.Audience;
+        int lifetime = jwtOptions.Value.TokenLifetimeMinutes;
+        
         SecurityTokenDescriptor tokenDescriptor = new()
         {
-            Issuer = "Checkout.Api",
-            Audience =  $"{requestScheme}://{requestHost}",
-            Expires = DateTime.UtcNow.AddHours(1),
+            Issuer = issuer,
+            Audience = audience,
+            Expires = DateTime.UtcNow.AddMinutes(lifetime),
             Subject = new ClaimsIdentity([
                 new Claim(JwtRegisteredClaimNames.Sub, checkoutSession.Id.Value.ToString())
             ]),
             SigningCredentials = await jwtService.GetCurrentSigningCredentials()
         };
+        
+        JwtSecurityTokenHandler tokenHandler = new();
         SecurityToken? jwt = tokenHandler.CreateToken(tokenDescriptor);
         string? jws = tokenHandler.WriteToken(jwt);
 

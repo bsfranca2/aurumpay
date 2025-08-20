@@ -1,3 +1,5 @@
+using System.Reflection;
+
 using Ardalis.Result;
 
 using AurumPay.Domain.SeedWork;
@@ -24,9 +26,8 @@ public class Repository<T, TId, TDb> : IRepository<T, TId>
 
     public async Task<T> CreateAsync(T entity)
     {
-        var entry = await DbSet.AddAsync(entity);
+        await DbSet.AddAsync(entity);
         await DbContext.SaveChangesAsync();
-        typeof(T).GetProperty("Id")!.SetValue(entity, entry.Entity.Id);
         return entity;
     }
 
