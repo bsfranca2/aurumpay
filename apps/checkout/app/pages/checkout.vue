@@ -26,6 +26,10 @@ const {
   setCartItems,
 } = useCheckout()
 
+const checkoutState = useCheckoutState()
+
+const router = useRouter()
+
 async function sync() {
   const response = await $fetch('/api/checkout/summary', {
     headers: useRequestHeaders(),
@@ -88,7 +92,11 @@ async function handleCreditCard(data: CreditCardPayment) {
       method: 'POST',
       body: data,
     })
-    console.log('Payment response:', response)
+
+    const isOk = [0, 1, 2].includes(response.paymentStatus)
+    if (isOk) {
+      router.push({ name: 'checkout-success___pt-BR', query: { email: checkoutState.value.customerInfo.email } })
+    }
   }
   catch (error) {
     return error.data.data

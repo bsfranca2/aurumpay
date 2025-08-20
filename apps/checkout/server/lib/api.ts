@@ -5,6 +5,7 @@ import type {
   CustomerAddress,
   IdentifyCustomer,
   Order,
+  OrderPayment,
   ProcessOrderPaymentRequest,
   SelectPaymentMethod,
 } from '@aurumpay/api-types/checkout'
@@ -33,7 +34,7 @@ export function createApiSdk(api: ApiFn) {
     },
 
     orders: {
-      payment: (id: number, data: ProcessOrderPaymentRequest) => api(`/orders/${id}/payment`, { method: 'post', body: data }),
+      payment: (id: number, data: ProcessOrderPaymentRequest) => api<OrderPayment>(`/orders/${id}/payment`, { method: 'post', body: data }),
     },
   }
 }
