@@ -2,7 +2,7 @@ import { cartCookieName } from '#shared/lib/cookies'
 
 export default defineEventHandler(async (event) => {
   const apiSdk = getApiSdk(event)
-  const response = await apiSdk.checkout.init({ cartItems: {} })
+  const response = await apiSdk.cart.checkout({ cartItems: {} })
   if (response.isLeft()) {
     deleteCookie(event, cartCookieName, {
       httpOnly: true,

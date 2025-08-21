@@ -20,21 +20,22 @@ export function createApiSdk(api: ApiFn) {
   return {
     api,
 
-    // Store
     store: () => api<Store>('/store', { method: 'get' }),
 
-    // Checkout
-    checkout: {
-      init: (data: CreateCheckout) => api('/checkout/init/product', { method: 'post', body: data }),
-      summary: () => api<CheckoutSession>('/checkout/summary', { method: 'get' }),
-      identifyCustomer: (data: IdentifyCustomer) => api('/checkout/customer', { method: 'put', body: data }),
-      addAddress: (data: CustomerAddress) => api<CustomerAddress>('/checkout/customer/addresses', { method: 'post', body: data }),
-      paymentMethod: (data: SelectPaymentMethod) => api('/checkout/payment-method', { method: 'put', body: data }),
-      finalize: () => api<Order>('/checkout/finalize', { method: 'post' }),
+    cart: {
+      checkout: (data: CreateCheckout) => api('/cart/checkout', { method: 'post', body: data }),
     },
 
-    orders: {
-      payment: (id: number, data: ProcessOrderPaymentRequest) => api<OrderPayment>(`/orders/${id}/payment`, { method: 'post', body: data }),
+    checkout: {
+      summary: () => api<CheckoutSession>('/checkout/summary', { method: 'get' }),
+      identifyCustomer: (data: IdentifyCustomer) => api('/checkout/customer', { method: 'put', body: data }),
+      paymentMethod: (data: SelectPaymentMethod) => api('/checkout/payment-method', { method: 'put', body: data }),
+      finalize: () => api<Order>('/checkout/finalize', { method: 'post' }),
+      payment: (data: ProcessOrderPaymentRequest) => api<OrderPayment>(`/checkout/payment`, { method: 'post', body: data }),
+    },
+
+    customer: {
+      addAddress: (data: CustomerAddress) => api<CustomerAddress>('/customer/addresses', { method: 'post', body: data }),
     },
   }
 }

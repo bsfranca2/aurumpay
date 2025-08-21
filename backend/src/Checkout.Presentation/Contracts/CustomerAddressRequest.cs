@@ -1,6 +1,6 @@
-namespace AurumPay.Checkout.Presentation.Checkouts;
+namespace AurumPay.Checkout.Presentation.Contracts;
 
-public record AddCustomerAddressDto
+public record CustomerAddressRequest
 {
     public required string Cep { get; set; }
     public required string AddressLine1 { get; set; }

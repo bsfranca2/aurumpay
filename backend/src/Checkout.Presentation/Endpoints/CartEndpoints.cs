@@ -1,6 +1,7 @@
 using Ardalis.Result;
 
 using AurumPay.Application.CheckoutSessions.Create;
+using AurumPay.Checkout.Presentation.Contracts;
 
 using Carter;
 
@@ -12,19 +13,21 @@ using Microsoft.AspNetCore.Routing;
 
 using IResult = Microsoft.AspNetCore.Http.IResult;
 
-namespace AurumPay.Checkout.Presentation.Checkouts;
+namespace AurumPay.Checkout.Presentation.Endpoints;
 
-public class CheckoutEndpoints : CarterModule
+public class CartEndpoints() : CarterModule("/cart")
 {
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/checkout/init/product", CheckoutInitProduct)
-            .WithName(nameof(CheckoutInitProduct))
+        app.MapPost("/checkout", CheckoutWithPublicIds)
+            .WithName(nameof(CheckoutWithPublicIds))
             .Produces(StatusCodes.Status200OK)
             .ProducesValidationProblem();
     }
 
-    private static async Task<IResult> CheckoutInitProduct(CreateCheckoutDto request, ISender sender)
+    private static async Task<IResult> CheckoutWithPublicIds(
+        CreateCheckoutRequest request,
+        ISender sender)
     {
         CreateCheckoutSessionCommand command = new(request.CartItems);
         Result result = await sender.Send(command);

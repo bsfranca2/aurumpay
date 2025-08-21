@@ -1,3 +1,5 @@
+import { checkoutSessionCookieName } from '~~/shared/lib/cookies'
+
 export default defineEventHandler(async (event) => {
   requireCheckoutSession(event)
 
@@ -11,10 +13,16 @@ export default defineEventHandler(async (event) => {
   const _paymentMethod = mapResponse(paymentMethodResult)
 
   const orderResult = await apiSdk.checkout.finalize()
-  const order = mapResponse(orderResult)
+  const _order = mapResponse(orderResult)
 
-  const paymentResult = await apiSdk.orders.payment(order.id, {
+  const paymentResult = await apiSdk.checkout.payment({
     paymentData: body,
   })
-  return mapResponse(paymentResult)
+  const payment = mapResponse(paymentResult)
+
+  if ([1, 2].includes(payment.paymentStatus)) {
+    deleteCookie(event, checkoutSessionCookieName)
+  }
+
+  return payment
 })

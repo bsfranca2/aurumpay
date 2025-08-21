@@ -1,6 +1,6 @@
-namespace AurumPay.Checkout.Presentation.Checkouts;
+namespace AurumPay.Checkout.Presentation.Contracts;
 
-public record IdentifyCustomerDto
+public record IdentifyCustomerRequest
 {
     public required string FullName { get; set; }
     public required string Email { get; set; }

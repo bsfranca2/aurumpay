@@ -1,11 +1,15 @@
 using Ardalis.Result;
 
-using AurumPay.Application.CheckoutSessions.AddCustomerAddress;
 using AurumPay.Application.CheckoutSessions.Finalize;
 using AurumPay.Application.CheckoutSessions.Get;
 using AurumPay.Application.CheckoutSessions.SelectPaymentMethod;
 using AurumPay.Application.CheckoutSessions.UpdateCustomer;
-using AurumPay.Application.Customers;
+using AurumPay.Application.Data;
+using AurumPay.Application.Orders.ProcessOrderPayment;
+using AurumPay.Checkout.Presentation.Contracts;
+using AurumPay.Checkout.Presentation.Utilities;
+using AurumPay.Domain.CheckoutSessions;
+using AurumPay.Domain.Interfaces;
 using AurumPay.Domain.Payments.Methods;
 
 using Carter;
@@ -18,7 +22,7 @@ using Microsoft.AspNetCore.Routing;
 
 using IResult = Microsoft.AspNetCore.Http.IResult;
 
-namespace AurumPay.Checkout.Presentation.Checkouts;
+namespace AurumPay.Checkout.Presentation.Endpoints;
 
 public class CheckoutSessionEndpoints : CarterModule
 {
@@ -37,11 +41,6 @@ public class CheckoutSessionEndpoints : CarterModule
             .WithName(nameof(CheckoutCustomer))
             .ProducesValidationProblem();
 
-        app.MapPost("/customer/addresses", AddCustomerAddress)
-            .WithName(nameof(AddCustomerAddress))
-            .Produces<CustomerAddressDto>(StatusCodes.Status201Created)
-            .ProducesValidationProblem();
-
         app.MapPut("/payment-method", SelectCheckoutPaymentMethod)
             .WithName(nameof(SelectCheckoutPaymentMethod))
             .Produces(StatusCodes.Status200OK)
@@ -51,6 +50,13 @@ public class CheckoutSessionEndpoints : CarterModule
             .WithName(nameof(FinalizeCheckoutSession))
             .Produces<OrderDto>()
             .ProducesValidationProblem();
+
+        app.MapPost("/payment", ProcessOrderPayment)
+            .WithName(nameof(ProcessOrderPayment))
+            .RequireAuthorization(Policies.CheckoutSessionOrder)
+            .Produces<OrderPaymentDto>()
+            .Produces(StatusCodes.Status404NotFound)
+            .ProducesValidationProblem();
     }
 
     private static async Task<IResult> CheckoutSummary(ISender sender)
@@ -59,22 +65,14 @@ public class CheckoutSessionEndpoints : CarterModule
         return result.ToMinimalApiResult();
     }
 
-    private static async Task<IResult> CheckoutCustomer(IdentifyCustomerDto request, ISender sender)
+    private static async Task<IResult> CheckoutCustomer(IdentifyCustomerRequest request, ISender sender)
     {
         UpdateCheckoutSessionCustomerCommand command = new(request.FullName, request.Email, request.PhoneNumber, request.Cpf);
         Result result = await sender.Send(command);
         return result.ToMinimalApiResult();
     }
 
-    private static async Task<IResult> AddCustomerAddress(AddCustomerAddressDto request, ISender sender)
-    {
-        AddCheckoutSessionCustomerAddressCommand command = new(request.Cep, request.AddressLine1, request.AddressLine2,
-            request.Number, request.Neighborhood, request.City, request.State, request.Recipient);
-        Result<CustomerAddressDto> result = await sender.Send(command);
-        return result.ToMinimalApiResult();
-    }
-
-    private static async Task<IResult> SelectCheckoutPaymentMethod(SelectPaymentMethodDto request, ISender sender)
+    private static async Task<IResult> SelectCheckoutPaymentMethod(SelectPaymentMethodRequest request, ISender sender)
     {
         if (Enum.TryParse(request.PaymentMethodType, out PaymentMethodType paymentMethodType))
         {
@@ -90,6 +88,17 @@ public class CheckoutSessionEndpoints : CarterModule
     {
         FinalizeCheckoutSessionCommand sessionCommand = new();
         Result<OrderDto> result = await sender.Send(sessionCommand);
+        return result.ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> ProcessOrderPayment(
+        ProcessOrderPaymentRequest request,
+        ISender sender,
+        ICheckoutContext checkoutContext)
+    {
+        CheckoutSession checkoutSession = await checkoutContext.SessionManager.GetRequiredSessionAsync();
+        ProcessOrderPaymentCommand command = new(checkoutSession.GetRequiredOrderId().Value, request.PaymentData);
+        Result<OrderPaymentDto> result = await sender.Send(command);
         return result.ToMinimalApiResult();
     }
 }

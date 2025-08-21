@@ -37,7 +37,13 @@ const main = defineCommand({
     const nameMapping = {}
 
     for (const key of schemaKeys) {
-      const newName = key.endsWith('Dto') ? key.slice(0, -3) : key
+      let newName = key
+      if (key.endsWith('Dto')) {
+        newName = key.slice(0, -3)
+      }
+      else if (key.endsWith('Request')) {
+        newName = key.slice(0, -7)
+      }
       nameMapping[key] = newName
     }
 
@@ -121,7 +127,7 @@ const main = defineCommand({
 
     content = content.replace(/\s*\[property: string\]: any;?\s*/g, '')
 
-    // content = content.replace(/export interface API \{[\s\S]*?\}\n\n/, '')
+    content = content.replace(/export interface API \{[\s\S]*?\}\n\n/, '')
 
     const header = '// Generated types from OpenAPI schema\n\n'
     content = header + content

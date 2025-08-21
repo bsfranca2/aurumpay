@@ -6,6 +6,7 @@ using AurumPay.Checkout.Api.Infrastructure.Services;
 using AurumPay.Domain.Interfaces;
 using AurumPay.Domain.Payments.Configuration;
 using AurumPay.Domain.Stores;
+using AurumPay.Infrastructure.Authorization;
 using AurumPay.Infrastructure.EntityFramework;
 using AurumPay.Infrastructure.EntityFramework.Repositories;
 using AurumPay.Infrastructure.PaymentGateways.MercadoPago;
@@ -14,6 +15,7 @@ using AurumPay.Infrastructure.Services;
 using FluentValidation;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 
 using ZiggyCreatures.Caching.Fusion;
@@ -44,6 +46,10 @@ public static class DependencyConfig
 
         services.AddForwardedHeadersConfig(environment, configuration);
         
+        services.AddScoped<IAuthorizationHandler, CheckoutSessionCustomerHandler>();
+        services.AddScoped<IAuthorizationHandler, CheckoutSessionOrderHandler>();
+
+        services.ConfigureOptions<AuthorizationOptionsSetup>();
         services.ConfigureOptions<JwtOptionsSetup>();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearerConfig();

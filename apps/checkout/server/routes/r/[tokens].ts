@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
     const tokens = getRouterParam(event, 'tokens') ?? ''
     // TODO: Handle invalid tokens or quantity
     const cartItems = parseCartItems(tokens)
-    const response = await apiSdk.checkout.init({ cartItems })
+    const response = await apiSdk.cart.checkout({ cartItems })
     if (response.isLeft()) {
       throw new Error('Invalid response')
     }
