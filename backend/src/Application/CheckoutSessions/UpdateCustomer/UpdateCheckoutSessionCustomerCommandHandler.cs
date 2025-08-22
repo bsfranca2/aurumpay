@@ -1,5 +1,6 @@
 using Ardalis.Result;
 
+using AurumPay.Application.Interfaces;
 using AurumPay.Application.SeedWork;
 using AurumPay.Domain.CheckoutSessions;
 using AurumPay.Domain.Customers;

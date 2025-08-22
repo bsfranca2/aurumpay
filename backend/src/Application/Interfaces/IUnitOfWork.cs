@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace AurumPay.Domain.Interfaces;
+namespace AurumPay.Application.Interfaces;
 
 public interface IUnitOfWork : IDisposable, IAsyncDisposable
 {
