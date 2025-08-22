@@ -12,9 +12,8 @@ public class UpdateCheckoutSessionCustomerCommandHandler(
     ICheckoutContext checkoutContext,
     IUnitOfWork unitOfWork,
     ICustomerRepository customerRepository,
-    IStoreCustomerService storeCustomerService,
-    ICheckoutSessionRepository checkoutSessionRepository)
-    : ICommandHandler<UpdateCheckoutSessionCustomerCommand, Result>
+    ICheckoutSessionRepository checkoutSessionRepository
+) : ICommandHandler<UpdateCheckoutSessionCustomerCommand, Result>
 {
     public async Task<Result> Handle(UpdateCheckoutSessionCustomerCommand request, CancellationToken cancellationToken)
     {
@@ -27,8 +26,10 @@ public class UpdateCheckoutSessionCustomerCommandHandler(
 
         await unitOfWork.BeginTransactionAsync();
 
-        Customer? customer =
-            await storeCustomerService.FindByEmailAsync(new EmailAddress(request.Email), cancellationToken);
+        Customer? customer = await customerRepository.FindByEmailAsync(
+            checkoutSession.StoreId,
+            new EmailAddress(request.Email),
+            cancellationToken);
 
         if (customer == null)
         {
