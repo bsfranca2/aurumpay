@@ -12,6 +12,7 @@
     <PackageVersion Include="Ardalis.Result.FluentValidation" Version="10.1.0" />
     <PackageVersion Include="Bogus" Version="35.6.3" />
     <PackageVersion Include="Carter" Version="8.2.1" />
+    <PackageVersion Include="Dapper" Version="2.1.66" />
     <PackageVersion Include="FluentAssertions" Version="7.2.0" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
     <PackageVersion Include="Mapster" Version="7.4.0" />
@@ -24,7 +25,9 @@
     <PackageVersion Include="Nanoid" Version="3.1.0" />
     <PackageVersion Include="NetDevPack.Security.Jwt.AspNetCore" Version="8.2.2" />
     <PackageVersion Include="NetDevPack.Security.Jwt.Core" Version="8.2.2" />
+    <PackageVersion Include="RabbitMQ.Client" Version="7.1.2" />
     <PackageVersion Include="Scalar.AspNetCore" Version="2.1.4" />
+    <PackageVersion Include="Scrutor" Version="6.1.0" />
     <PackageVersion Include="Serilog.Extensions.Logging" Version="9.0.1" />
     <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />
@@ -57,6 +60,7 @@
     <PackageVersion Include="Aspire.Hosting.AppHost" Version="9.2.0" />
     <PackageVersion Include="Aspire.Hosting.NodeJs" Version="9.2.0" />
     <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="9.2.0" />
+    <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="9.4.1" />
     <PackageVersion Include="Aspire.Hosting.Valkey" Version="9.2.1" />
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.4.0" />
     <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="9.2.0" />

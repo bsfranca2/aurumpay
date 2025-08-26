@@ -6,10 +6,10 @@ IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(ar
 
 CertificateConfig certConfig = CertsHelper.SetupCertificates(builder.AppHostDirectory);
 
-IResourceBuilder<ParameterResource> mainDbUserName = builder.AddParameter("postgres-username");
+IResourceBuilder<ParameterResource> mainDbUsername = builder.AddParameter("postgres-username");
 IResourceBuilder<ParameterResource> mainDbPassword = builder.AddParameter("postgres-password");
 IResourceBuilder<PostgresServerResource> mainDb = builder
-    .AddPostgres("postgres", mainDbUserName, mainDbPassword, 5432)
+    .AddPostgres("postgres", mainDbUsername, mainDbPassword, 5432)
     .WithDataVolume();
 IResourceBuilder<PostgresDatabaseResource> mainDbDatabase = mainDb.AddDatabase("Database", "AurumPayDev");
 
@@ -17,11 +17,32 @@ IResourceBuilder<ValkeyResource> cache = builder
     .AddValkey("Cache")
     .WithDataVolume();
 
+IResourceBuilder<ParameterResource> messagingUsername = builder.AddParameter("rabbitmq-username");
+IResourceBuilder<ParameterResource> messagingPassword = builder.AddParameter("rabbitmq-password");
+IResourceBuilder<RabbitMQServerResource> messaging = builder
+    .AddRabbitMQ("Messaging", messagingUsername, messagingPassword)
+    .WithManagementPlugin()
+    .WithDataVolume(isReadOnly: false);
+
 IResourceBuilder<ProjectResource> checkoutApi = builder
     .AddProject<Checkout_Api>("CheckoutApi")
     .WithReference(mainDbDatabase)
     .WaitFor(mainDbDatabase)
     .WithReference(cache);
+
+builder
+    .AddProject<OutboxProcessing>("OutboxProcessing")
+    .WithReference(mainDbDatabase)
+    .WaitFor(mainDbDatabase)
+    .WithReference(messaging)
+    .WaitFor(messaging);
+
+builder
+    .AddProject<EventsProcessing>("EventsProcessing")
+    .WithReference(mainDbDatabase)
+    .WaitFor(mainDbDatabase)
+    .WithReference(messaging)
+    .WaitFor(messaging);
 
 IResourceBuilder<NodeAppResource> checkoutApp = builder
     .AddNpmApp("CheckoutApp", "../../../apps/checkout", "dev")

@@ -4,6 +4,7 @@ using AurumPay.Domain.CheckoutSessions;
 using AurumPay.Domain.Customers;
 using AurumPay.Domain.Merchants;
 using AurumPay.Domain.Orders;
+using AurumPay.Domain.Outbox;
 using AurumPay.Domain.Payments.Configuration;
 using AurumPay.Domain.Payments.Gateways;
 using AurumPay.Domain.Payments.Methods;
@@ -32,6 +33,7 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> options) : DbCont
     public DbSet<PaymentMethod> PaymentMethods { get; init; }
     public DbSet<PaymentGateway> PaymentGateways { get; init; }
     public DbSet<StorePaymentConfiguration> StorePaymentConfigurations { get; init; }
+    public DbSet<OutboxMessage> OutboxMessages { get; init; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -46,6 +48,7 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> options) : DbCont
         modelBuilder.ApplyConfiguration(new PaymentGatewayEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new StorePaymentConfigurationEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new PaymentEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new OutboxMessageEntityTypeConfiguration());
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

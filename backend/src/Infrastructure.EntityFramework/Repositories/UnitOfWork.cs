@@ -1,7 +1,6 @@
 using System.Data;
 
 using AurumPay.Application.Interfaces;
-using AurumPay.Application.SeedWork;
 using AurumPay.Domain.Interfaces;
 
 using Microsoft.EntityFrameworkCore;

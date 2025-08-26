@@ -1,8 +1,8 @@
+using AurumPay.Core;
 using AurumPay.Domain.Customers;
 using AurumPay.Domain.Orders;
 using AurumPay.Domain.Payments.Gateways;
 using AurumPay.Domain.Payments.Methods;
-using AurumPay.Domain.SeedWork;
 
 namespace AurumPay.Domain.Payments.Transactions;
 

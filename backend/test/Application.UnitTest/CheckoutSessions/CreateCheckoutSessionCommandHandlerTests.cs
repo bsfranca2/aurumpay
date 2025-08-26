@@ -17,7 +17,7 @@ public class CreateCheckoutSessionCommandHandlerTests
     private readonly Mock<IDeviceIdentityProvider> _mockDeviceIdentity;
     private readonly Mock<ICheckoutSessionManager> _mockSessionManager;
     private readonly Mock<ICheckoutSessionRepository> _mockSessionRepository;
-    private readonly Mock<IStoreProductService> _mockStoreProductService;
+    private readonly Mock<IProductMappingService> _mockStoreProductService;
     private readonly CreateCheckoutSessionCommandHandler _handler;
 
     public CreateCheckoutSessionCommandHandlerTests()
@@ -34,7 +34,7 @@ public class CreateCheckoutSessionCommandHandlerTests
         _mockCheckoutContext.Setup(c => c.SessionManager).Returns(_mockSessionManager.Object);
 
         _mockSessionRepository = new Mock<ICheckoutSessionRepository>();
-        _mockStoreProductService = new Mock<IStoreProductService>();
+        _mockStoreProductService = new Mock<IProductMappingService>();
 
         _handler = new CreateCheckoutSessionCommandHandler(
             _mockCheckoutContext.Object,

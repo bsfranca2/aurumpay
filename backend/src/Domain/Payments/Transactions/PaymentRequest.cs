@@ -3,9 +3,6 @@ using AurumPay.Domain.Payments.Methods;
 
 namespace AurumPay.Domain.Payments.Transactions;
 
-/// <summary>
-/// Request object for payment processing
-/// </summary>
 public sealed class PaymentRequest
 {
     public decimal Amount { get; }

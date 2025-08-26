@@ -1,6 +1,6 @@
 using Ardalis.Result;
 
-using AurumPay.Application.SeedWork;
+using AurumPay.Core;
 using AurumPay.Domain.Customers;
 using AurumPay.Domain.Shared;
 

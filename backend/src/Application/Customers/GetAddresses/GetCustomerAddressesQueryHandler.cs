@@ -1,7 +1,7 @@
 using Ardalis.Result;
 
 using AurumPay.Application.Data;
-using AurumPay.Application.SeedWork;
+using AurumPay.Core;
 using AurumPay.Domain.Interfaces;
 
 using Microsoft.EntityFrameworkCore;

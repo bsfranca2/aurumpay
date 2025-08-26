@@ -1,6 +1,6 @@
 using Ardalis.Result;
 
-using AurumPay.Application.SeedWork;
+using AurumPay.Core;
 
 namespace AurumPay.Application.Customers.UpdateAddress;
 

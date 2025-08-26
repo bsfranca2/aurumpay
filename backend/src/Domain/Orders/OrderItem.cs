@@ -1,6 +1,6 @@
+using AurumPay.Core;
 using AurumPay.Domain.Catalog;
 using AurumPay.Domain.CheckoutSessions;
-using AurumPay.Domain.SeedWork;
 
 namespace AurumPay.Domain.Orders;
 

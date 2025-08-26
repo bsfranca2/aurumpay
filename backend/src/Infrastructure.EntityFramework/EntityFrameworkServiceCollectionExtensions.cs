@@ -2,8 +2,8 @@ using AurumPay.Application.Interfaces;
 using AurumPay.Domain.Catalog;
 using AurumPay.Domain.CheckoutSessions;
 using AurumPay.Domain.Customers;
-using AurumPay.Domain.Interfaces;
 using AurumPay.Domain.Orders;
+using AurumPay.Domain.Outbox;
 using AurumPay.Domain.Payments;
 using AurumPay.Infrastructure.EntityFramework.Options;
 using AurumPay.Infrastructure.EntityFramework.Repositories;
@@ -51,6 +51,7 @@ public static class EntityFrameworkServiceCollectionExtensions
         services.AddScoped<IPaymentRepository, PaymentRepository>();
         services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
         services.AddScoped<IPaymentGatewayRepository, PaymentGatewayRepository>();
+        services.AddScoped<IOutboxRepository, OutboxRepository>();
 
         return services;
     }

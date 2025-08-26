@@ -1,7 +1,7 @@
 using Ardalis.Result;
 
 using AurumPay.Application.CheckoutSessions.Finalize;
-using AurumPay.Application.SeedWork;
+using AurumPay.Core;
 using AurumPay.Domain.Orders;
 
 namespace AurumPay.Application.Orders.GetById;

@@ -1,6 +1,6 @@
 using Ardalis.GuardClauses;
 
-using AurumPay.Domain.SeedWork;
+using AurumPay.Core;
 using AurumPay.Domain.Shared;
 
 namespace AurumPay.Domain.Customers;

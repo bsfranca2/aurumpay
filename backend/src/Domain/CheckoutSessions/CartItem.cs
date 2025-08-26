@@ -1,7 +1,7 @@
 using Ardalis.GuardClauses;
 
+using AurumPay.Core;
 using AurumPay.Domain.Catalog;
-using AurumPay.Domain.SeedWork;
 
 namespace AurumPay.Domain.CheckoutSessions;
 

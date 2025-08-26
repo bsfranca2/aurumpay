@@ -1,5 +1,5 @@
+using AurumPay.Core;
 using AurumPay.Domain.Orders;
-using AurumPay.Domain.SeedWork;
 
 namespace AurumPay.Domain.CheckoutSessions;
 

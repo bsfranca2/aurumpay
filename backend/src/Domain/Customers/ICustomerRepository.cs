@@ -1,4 +1,4 @@
-using AurumPay.Domain.SeedWork;
+using AurumPay.Core;
 using AurumPay.Domain.Shared;
 using AurumPay.Domain.Stores;
 

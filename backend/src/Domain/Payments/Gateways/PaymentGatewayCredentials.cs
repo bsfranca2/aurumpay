@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-using AurumPay.Domain.SeedWork;
+using AurumPay.Core;
 
 namespace AurumPay.Domain.Payments.Gateways;
 

@@ -1,4 +1,4 @@
-using AurumPay.Domain.SeedWork;
+using AurumPay.Core;
 using AurumPay.Domain.Stores;
 
 namespace AurumPay.Domain.Catalog;

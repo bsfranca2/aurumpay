@@ -1,8 +1,4 @@
-using System.Reflection;
-
-using Ardalis.Result;
-
-using AurumPay.Domain.SeedWork;
+using AurumPay.Core;
 
 using Microsoft.EntityFrameworkCore;
 

@@ -1,5 +1,5 @@
+using AurumPay.Core;
 using AurumPay.Domain.Payments.Gateways;
-using AurumPay.Domain.SeedWork;
 
 namespace AurumPay.Domain.Payments;
 

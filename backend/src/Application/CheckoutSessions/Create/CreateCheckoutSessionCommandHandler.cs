@@ -1,6 +1,6 @@
 using Ardalis.Result;
 
-using AurumPay.Application.SeedWork;
+using AurumPay.Core;
 using AurumPay.Domain.Catalog;
 using AurumPay.Domain.CheckoutSessions;
 using AurumPay.Domain.Interfaces;
@@ -11,7 +11,7 @@ namespace AurumPay.Application.CheckoutSessions.Create;
 internal sealed class CreateCheckoutSessionCommandHandler(
     ICheckoutContext checkoutContext,
     ICheckoutSessionRepository checkoutSessionRepository,
-    IStoreProductService storeProductService
+    IProductMappingService productMappingService
 ) : ICommandHandler<CreateCheckoutSessionCommand, Result>
 {
     public async Task<Result> Handle(CreateCheckoutSessionCommand request, CancellationToken ct)
@@ -59,7 +59,10 @@ internal sealed class CreateCheckoutSessionCommandHandler(
         CancellationToken ct)
     {
         HashSet<string> publicIds = request.CartItems.Select(ci => ci.Key).ToHashSet();
-        Dictionary<string, ProductId>? productMappings = await storeProductService.MapPublicIdsToProductIdsAsync(publicIds, ct);
+        Dictionary<string, ProductId>? productMappings = await productMappingService.MapPublicIdsToProductIdsAsync(
+            checkoutContext.Store.GetCurrentStoreId(),
+            publicIds,
+            ct);
 
         if (productMappings == null || productMappings.Count == 0)
         {

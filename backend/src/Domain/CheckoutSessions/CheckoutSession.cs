@@ -1,10 +1,10 @@
 using Ardalis.GuardClauses;
 
+using AurumPay.Core;
 using AurumPay.Domain.Customers;
 using AurumPay.Domain.Orders;
 using AurumPay.Domain.Payments.Gateways;
 using AurumPay.Domain.Payments.Methods;
-using AurumPay.Domain.SeedWork;
 using AurumPay.Domain.Stores;
 
 namespace AurumPay.Domain.CheckoutSessions;

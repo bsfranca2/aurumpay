@@ -9,12 +9,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Checkout.Api\Checkout.Api.csproj" />
+    <ProjectReference Include="..\EventsProcessing\EventsProcessing.csproj" />
+    <ProjectReference Include="..\OutboxProcessing\OutboxProcessing.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" />
     <PackageReference Include="Aspire.Hosting.NodeJs" />
     <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+    <PackageReference Include="Aspire.Hosting.RabbitMQ" />
     <PackageReference Include="Aspire.Hosting.Valkey" />
   </ItemGroup>
 
